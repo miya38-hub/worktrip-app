@@ -43,9 +43,9 @@
 
 ## 開発環境
 - OS : Windows 11
-- 言語 : HTML,CSS,JavaScript,Ruby,SQLite（開発環境）
+- 言語 : HTML,CSS,JavaScript,Ruby
 - フレームワーク : Ruby on Rails
-- JSライブラリ : Turbo,Stimulus,Chart.js
+- JSライブラリ : Jquery
 - IDE: Visual Studio Code (VSCode)
 
 ---
