@@ -45,7 +45,7 @@
 - OS : Windows 11
 - 言語 : HTML,CSS,JavaScript,Ruby
 - フレームワーク : Ruby on Rails
-- JSライブラリ : Jquery
+- JSライブラリ : jQuery
 - IDE: Visual Studio Code (VSCode)
 
 ---
