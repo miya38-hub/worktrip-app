@@ -1,0 +1,16 @@
+<header>
+  <nav style="display:flex; gap:20px;">
+  
+    <%= link_to "WorkTrip", root_path %>
+    <%= link_to "About" , about_path %>
+
+    <% if current_user %>
+      <span>ログイン中</span>
+      <%= link_to "ログアウト", session_path, data: { turbo_method: :delete } %>
+    <% else %>
+
+      <%= link_to "新規登録" , new_user_path %>
+      <%= link_to "ログイン" , new_session_path %>
+    <% end %>
+  </nav>
+</header>
