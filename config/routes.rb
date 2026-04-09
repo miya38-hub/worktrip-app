@@ -5,7 +5,8 @@ Rails.application.routes.draw do
     root "homes#top"
     get "/about", to: "homes#about"
 
-    resources :users, only: [:new, :create]
+    resources :users, only: [:new, :create, :show, :edit, :update, :destroy]
     resource :session, only: [:new, :create, :destroy]
+    resources :spots
   end
 end

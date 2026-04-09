@@ -1,0 +1,10 @@
+<h1>スポット一覧</h1>
+
+<%= link_to "新規投稿", new_spot_path %>
+
+<% @spots.each do |spot| %>
+  <div>
+    <h3><%= link_to spot.name, spot %></h3>
+    <p><%= spot.address %></p>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@ class Public::SessionsController < Public::ApplicationController
     if user&.authenticate(params[:password])
       start_new_session_for(user)
       
-      redirect_to root_path, notice: "ログイン成功"
+      redirect_to spots_path, notice: "ログインしました"
     else
       flash[:alert] = "メールアドレスまたはパスワードが違います"
       render :new

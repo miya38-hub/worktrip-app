@@ -1,0 +1,64 @@
+<div class="container mt-4">
+
+  <!-- プロフィール -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body text-center">
+
+      <% if @user.profile_image.attached? %>
+        <%= image_tag @user.profile_image, class: "rounded-circle mb-3", width: 120, height: 120 %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", width: 120, height: 120 %>
+      <% end %>
+
+      <h3><%= @user.name %></h3>
+      <p><%= @user.email_address %></p>
+      <p><%= @user.introduction %></p>
+
+      <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-outline-primary btn-sm" %>
+    </div>
+  </div>
+
+  <!-- タブ -->
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#spots">スポット</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#favorites">お気に入り</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#reviews">レビュー</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+
+    <!-- スポット一覧 -->
+    <div class="tab-pane fade show active" id="spots">
+      <div class="row">
+        <% @spots.each do |spot| %>
+          <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5><%= link_to spot.name, spot_path(spot) %></h5>
+                <p><%= spot.address %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- お気に入り -->
+    <div class="tab-pane fade" id="favorites">
+      <p>お気に入りはまだありません</p>
+    </div>
+
+    <!-- レビュー -->
+    <div class="tab-pane fade" id="reviews">
+      <p>レビューはまだありません</p>
+    </div>
+
+  </div>
+
+</div>

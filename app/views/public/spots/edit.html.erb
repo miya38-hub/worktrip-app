@@ -1,0 +1,7 @@
+<h1>編集</h1>
+
+<%= form_with model: @spot, data: { turbo: false } do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :address %>
+  <%= f.submit "更新" %>
+<% end %>

@@ -17,9 +17,17 @@ class Public::UsersController < Public::ApplicationController
     end
   end
 
+  def show
+    @user = current_user
+    @spots = @user.spots
+
+    @favorites = []
+    @reviews = []
+  end
+
   private
   
   def user_params
-    params.require(:user).permit(:name, :email_address, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email_address, :password, :password_confirmation, :introduction, :profile_image)
   end
 end

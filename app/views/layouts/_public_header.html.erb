@@ -1,16 +1,51 @@
-<header>
-  <nav style="display:flex; gap:20px;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
   
-    <%= link_to "WorkTrip", root_path %>
-    <%= link_to "About" , about_path %>
+  <!-- ロゴ -->
+  <%= link_to "WorkTrip", (current_user ? spots_path : root_path), class: "navbar-brand fw-bold" %>
 
-    <% if current_user %>
-      <span>ログイン中</span>
-      <%= link_to "ログアウト", session_path, data: { turbo_method: :delete } %>
-    <% else %>
+  <!-- ハンバーガー（スマホ対応） -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-      <%= link_to "新規登録" , new_user_path %>
-      <%= link_to "ログイン" , new_session_path %>
-    <% end %>
-  </nav>
-</header>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    
+    <!-- 左寄せ -->
+    <ul class="navbar-nav me-auto">
+      <% if current_user %>
+        <li class="nav-item">
+          <%= link_to "スポット一覧", spots_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "マイページ", user_path(current_user), class: "nav-link" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "About", about_path, class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
+
+    <!-- 右寄せ -->
+    <ul class="navbar-nav">
+      <% if current_user %>
+        <li class="nav-item">
+          <span class="navbar-text me-3">
+            <%= current_user.name %> さん
+          </span>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログアウト", session_path, data: { turbo_method: :delete }, class: "btn btn-outline-light btn-sm" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "新規登録", new_user_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_session_path, class: "btn btn-outline-light btn-sm ms-2" %>
+        </li>
+      <% end %>
+    </ul>
+
+  </div>
+</nav>

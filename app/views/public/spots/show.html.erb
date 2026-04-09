@@ -1,0 +1,10 @@
+<h1><%= @spot.name %></h1>
+
+<p><%= @spot.address %></p>
+<p>WiFi: <%= @spot.wifi ? "あり" : "なし" %></p>
+<p>電源: <%= @spot.power_supply ? "あり" : "なし" %></p>
+
+<% if @spot.user == current.user %>
+  <%= link_to "編集", edit_spot_path(@spot) %>
+  <%= link_to "削除", @spot, data: { turbo_method: :delete } %>
+<% end %>
