@@ -9,7 +9,7 @@ class Public::SpotsController < Public::ApplicationController
 
   def show
     @user = current_user
-    @spots = @user.spots
+    @reviews = @spot.reviews.includes(:user)
     #@favorites = @user.favorites
     #@reviews = @user.reviews
   end
@@ -21,6 +21,18 @@ class Public::SpotsController < Public::ApplicationController
   def create
     @spot = current_user.spots.build(spot_params)
     if @spot.save
+      if params[:review].present? && params[:review][:rating].present?
+        current_user.reviews.create(
+          spot: @spot,
+          rating: params[:review][:rating],
+          wifi_rating: params[:review][:wifi_rating],
+          power_rating: params[:review][:power_rating],
+          quietness_rating: params[:review][:quietness_rating],
+          workability_rating: params[:review][:workability_rating],
+          comment: params[:review][:comment]
+        )
+      end
+
       redirect_to @spot, notice: "投稿しました"
     else
       render :new

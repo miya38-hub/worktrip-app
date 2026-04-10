@@ -57,6 +57,59 @@
               <%= f.text_area :description, class: "form-control", rows: 4, placeholder: "作業のしやすさや雰囲気など..." %>
             </div>
 
+            <!-- レビュー -->
+            <hr class="my-4">
+            <h4 class="mb-3">初回レビュー（任意）</h4>
+
+            <!-- 総合評価 -->
+            <div class="mb-3">
+              <label class="form-label">総合評価</label>
+              <%= select_tag "review[rating]",
+                  options_for_select([1,2,3,4,5]),
+                  class: "form-select" %>
+            </div>
+
+            <!-- WiFi評価 -->
+            <div class="mb-3">
+              <label class="form-label">WiFi評価</label>
+              <%= select_tag "review[wifi_rating]",
+                  options_for_select([1,2,3,4,5]),
+                  class: "form-select" %>
+            </div>
+
+            <!-- 電源評価 -->
+            <div class="mb-3">
+              <label class="form-label">電源評価</label>
+              <%= select_tag "review[power_rating]",
+                  options_for_select([1,2,3,4,5]),
+                  class: "form-select" %>
+            </div>
+
+            <!-- 静かさ -->
+            <div class="mb-3">
+              <label class="form-label">静かさ</label>
+              <%= select_tag "review[quietness_rating]",
+                  options_for_select([1,2,3,4,5]),
+                  class: "form-select" %>
+            </div>
+
+            <!-- 作業しやすさ -->
+            <div class="mb-3">
+              <label class="form-label">作業しやすさ</label>
+              <%= select_tag "review[workability_rating]",
+                  options_for_select([1,2,3,4,5]),
+                  class: "form-select" %>
+            </div>
+
+            <!-- コメント -->
+            <div class="mb-3">
+              <label class="form-label">コメント</label>
+              <%= text_area_tag "review[comment]", nil,
+                  class: "form-control",
+                  rows: 3,
+                  placeholder: "実際に使ってみた感想..." %>
+            </div>
+
             <!-- ボタン -->
             <div class="text-center">
               <%= f.submit "投稿する", class: "btn btn-primary px-5" %>

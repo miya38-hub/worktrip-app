@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  spot: one
+  rating: 1
+  wifi_rating: 1
+  power_rating: 1
+  quietness_rating: 1
+  workability_rating: 1
+  comment: MyText
+
+two:
+  user: two
+  spot: two
+  rating: 1
+  wifi_rating: 1
+  power_rating: 1
+  quietness_rating: 1
+  workability_rating: 1
+  comment: MyText

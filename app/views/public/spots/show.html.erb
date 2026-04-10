@@ -1,12 +1,16 @@
 <div class="container mt-4">
 
-  <div class="card shadow-sm p-4">
+  <!-- スポット情報 -->
+  <div class="card shadow-sm p-4 mb-4">
 
-    <!-- タイトル -->
     <h2 class="mb-2"><%= @spot.name %></h2>
-
-    <!-- 住所 -->
     <p class="text-muted"><%= @spot.address %></p>
+
+    <!-- 平均評価 -->
+    <div class="text-warning mb-2">
+      ★ <%= @spot.reviews.average(:rating)&.round(1) || "未評価" %>
+      <small class="text-muted">(<%= @spot.reviews.count %>件)</small>
+    </div>
 
     <hr>
 
@@ -22,29 +26,82 @@
     </div>
 
     <!-- 説明 -->
-    <div class="mb-4">
+    <div class="mb-3">
       <h5>説明</h5>
       <p><%= @spot.description.presence || "説明はまだありません" %></p>
     </div>
 
     <!-- 投稿者 -->
     <div class="d-flex align-items-center mb-3">
-
       <% if @spot.user.profile_image.attached? %>
         <%= image_tag @spot.user.profile_image, class: "rounded-circle me-2", width: 40, height: 40 %>
       <% else %>
         <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
       <% end %>
-
       <strong><%= @spot.user.name %></strong>
     </div>
 
-    <!-- 編集ボタン -->
+    <!-- ボタン -->
     <% if @spot.user == current_user %>
       <div>
         <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary me-2" %>
         <%= link_to "削除", @spot, data: { turbo_method: :delete }, class: "btn btn-outline-danger" %>
       </div>
+    <% end %>
+
+  </div>
+
+  <!-- レビュー -->
+  <div>
+
+    <h4 class="mb-3">レビュー</h4>
+
+    <% if @reviews.any? %>
+
+      <% @reviews.each do |review| %>
+        <div class="card mb-3 shadow-sm border-0">
+
+          <div class="card-body">
+
+            <!-- 投稿者 -->
+            <div class="d-flex align-items-center mb-2">
+              <% if review.user.profile_image.attached? %>
+                <%= image_tag review.user.profile_image, class: "rounded-circle me-2", width: 40, height: 40 %>
+              <% else %>
+                <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
+              <% end %>
+              <strong><%= review.user.name %></strong>
+            </div>
+
+            <!-- 星 -->
+            <div class="text-warning mb-2">
+              <% review.rating.to_i.times do %>★<% end %>
+              <% (5 - review.rating.to_i).times do %>☆<% end %>
+            </div>
+
+            <!-- 項目評価 -->
+            <div class="small text-muted mb-2">
+              WiFi: <%= review.wifi_rating %> |
+              電源: <%= review.power_rating %> |
+              静かさ: <%= review.quietness_rating %> |
+              作業: <%= review.workability_rating %>
+            </div>
+
+            <!-- コメント -->
+            <p class="mb-1"><%= review.comment.presence || "コメントなし" %></p>
+
+            <!-- 日付 -->
+            <small class="text-muted">
+              <%= review.created_at.strftime("%Y/%m/%d") %>
+            </small>
+
+          </div>
+
+        </div>
+      <% end %>
+
+    <% else %>
+      <p class="text-muted">まだレビューはありません</p>
     <% end %>
 
   </div>
