@@ -1,5 +1,7 @@
 class Public::SessionsController < Public::ApplicationController
-  allow_unauthenticated_access only: [:new, :create]
+  allow_unauthenticated_access only: [:new, :create, :guest_login]
+
+  skip_before_action :verify_authenticity_token, only: [:guest_login]
 
   def new
   end
@@ -15,6 +17,12 @@ class Public::SessionsController < Public::ApplicationController
       flash[:alert] = "メールアドレスまたはパスワードが違います"
       render :new
     end
+  end
+
+  def guest_login
+    user = User.guest
+    start_new_session_for(user)
+    redirect_to spots_path, notice: "ゲストログインしました"
   end
 
   def destroy

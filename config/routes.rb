@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     get "/about", to: "homes#about"
 
     resources :users, only: [:new, :create, :show, :edit, :update, :destroy]
-    resource :session, only: [:new, :create, :destroy]
+    resource :session, only: [:new, :create, :destroy] do
+      post :guest_login
+    end
     resources :spots
   end
 end

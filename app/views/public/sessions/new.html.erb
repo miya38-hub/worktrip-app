@@ -1,17 +1,54 @@
 <div class="container mt-5">
-  <h2>ログイン</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-5">
 
-  <%= form_with url: session_path, local: true do %>
-    <div class="mb-3">
-      <%= label_tag :email, "メールアドレス" %>
-      <%= text_field_tag :email, nil, class: "form-control" %>
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+
+          <!-- タイトル -->
+          <h3 class="text-center mb-4 fw-bold">ログイン</h3>
+
+          <!-- 通常ログイン -->
+          <%= form_with url: session_path, local: true do %>
+
+            <div class="mb-3">
+              <%= label_tag :email, "メールアドレス", class: "form-label small text-muted" %>
+              <%= text_field_tag :email, nil, class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="mb-4">
+              <%= label_tag :password, "パスワード", class: "form-label small text-muted" %>
+              <%= password_field_tag :password, nil, class: "form-control form-control-lg" %>
+            </div>
+
+            <%= submit_tag "ログイン",
+              class: "btn btn-primary w-100 py-2 fw-bold" %>
+
+          <% end %>
+
+          <!-- 区切り -->
+          <div class="text-center my-3 text-muted">
+            ─ または ─
+          </div>
+
+          <!-- ゲストログイン -->
+          <%= button_to "ゲストログイン",
+            guest_login_session_path,
+            method: :post,
+            form: { data: { turbo: false } },
+            class: "btn btn-outline-secondary w-100 py-2 fw-bold" %>
+
+          <!-- 下リンク -->
+          <div class="text-center mt-4">
+            <small>
+              アカウントをお持ちでない方は
+              <%= link_to "新規登録", new_user_path, class: "text-decoration-none" %>
+            </small>
+          </div>
+
+        </div>
+      </div>
+
     </div>
-
-    <div class="mb-3">
-      <%= label_tag :password, "パスワード" %>
-      <%= password_field_tag :password, nil, class: "form-control" %>
-    </div>
-
-    <%= submit_tag "ログイン", class: "btn btn-primary" %>
-  <% end %>
+  </div>
 </div>
