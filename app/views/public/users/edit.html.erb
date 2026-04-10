@@ -1,11 +1,67 @@
-<%= form_with model: @user, data: {turbo: false} do |f| %>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
 
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+      <div class="card shadow-sm">
+        <div class="card-body">
 
-  <%= f.label :profile_image, "プロフィール画像" %>
-  <%= f.file_field :profile_image %>
+          <h2 class="text-center mb-4">プロフィール編集</h2>
 
-  <%= f.submit "更新" %>
+          <%= form_with model: @user,
+              scope: :user,
+              data: { turbo: false },
+              html: { multipart: true } do |f| %>
 
-<% end %>
+            <!-- エラー -->
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger">
+                <ul>
+                  <% @user.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <!-- 画像 -->
+            <div class="mb-3 text-center">
+              <% if @user.profile_image.attached? && @user.profile_image.blob&.persisted? %>
+                <%= image_tag @user.profile_image, class: "rounded-circle mb-2", width: 120, height: 120 %>
+              <% else %>
+                <%= image_tag "no_image.jpg", class: "rounded-circle mb-2", width: 120, height: 120 %>
+              <% end %>
+
+              <%= f.file_field :profile_image, class: "form-control" %>
+            </div>
+
+            <!-- 名前 -->
+            <div class="mb-3">
+              <%= f.label :name, "名前", class: "form-label" %>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+
+            <!-- メール -->
+            <div class="mb-3">
+              <%= f.label :email_address, "メールアドレス", class: "form-label" %>
+              <%= f.email_field :email_address, class: "form-control" %>
+            </div>
+
+            <!-- 自己紹介 -->
+            <div class="mb-3">
+              <%= f.label :introduction, "自己紹介", class: "form-label" %>
+              <%= f.text_area :introduction, class: "form-control", rows: 4 %>
+            </div>
+
+            <!-- ボタン -->
+            <div class="text-center">
+              <%= f.submit "更新する", class: "btn btn-primary px-4" %>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
