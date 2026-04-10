@@ -1,10 +1,52 @@
-<h1><%= @spot.name %></h1>
+<div class="container mt-4">
 
-<p><%= @spot.address %></p>
-<p>WiFi: <%= @spot.wifi ? "あり" : "なし" %></p>
-<p>電源: <%= @spot.power_supply ? "あり" : "なし" %></p>
+  <div class="card shadow-sm p-4">
 
-<% if @spot.user == current.user %>
-  <%= link_to "編集", edit_spot_path(@spot) %>
-  <%= link_to "削除", @spot, data: { turbo_method: :delete } %>
-<% end %>
+    <!-- タイトル -->
+    <h2 class="mb-2"><%= @spot.name %></h2>
+
+    <!-- 住所 -->
+    <p class="text-muted"><%= @spot.address %></p>
+
+    <hr>
+
+    <!-- 設備 -->
+    <div class="mb-3">
+      <% if @spot.wifi %>
+        <span class="badge bg-success me-2">WiFiあり</span>
+      <% end %>
+
+      <% if @spot.power_supply %>
+        <span class="badge bg-primary">電源あり</span>
+      <% end %>
+    </div>
+
+    <!-- 説明 -->
+    <div class="mb-4">
+      <h5>説明</h5>
+      <p><%= @spot.description.presence || "説明はまだありません" %></p>
+    </div>
+
+    <!-- 投稿者 -->
+    <div class="d-flex align-items-center mb-3">
+
+      <% if @spot.user.profile_image.attached? %>
+        <%= image_tag @spot.user.profile_image, class: "rounded-circle me-2", width: 40, height: 40 %>
+      <% else %>
+        <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
+      <% end %>
+
+      <strong><%= @spot.user.name %></strong>
+    </div>
+
+    <!-- 編集ボタン -->
+    <% if @spot.user == current_user %>
+      <div>
+        <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary me-2" %>
+        <%= link_to "削除", @spot, data: { turbo_method: :delete }, class: "btn btn-outline-danger" %>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

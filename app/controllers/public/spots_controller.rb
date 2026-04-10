@@ -10,8 +10,8 @@ class Public::SpotsController < Public::ApplicationController
   def show
     @user = current_user
     @spots = @user.spots
-    @favorites = @user.favorites
-    @reviews = @user.reviews
+    #@favorites = @user.favorites
+    #@reviews = @user.reviews
   end
 
   def new

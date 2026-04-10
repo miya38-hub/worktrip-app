@@ -1,20 +1,37 @@
 <div class="container mt-4">
 
   <!-- プロフィール -->
-  <div class="card mb-4 shadow-sm">
+  <div class="card shadow-sm mb-4">
     <div class="card-body text-center">
 
       <% if @user.profile_image.attached? %>
-        <%= image_tag @user.profile_image, class: "rounded-circle mb-3", width: 120, height: 120 %>
+        <%= image_tag @user.profile_image.variant(resize_to_fill: [120,120]), class: "rounded-circle mb-3" %>
       <% else %>
         <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", width: 120, height: 120 %>
       <% end %>
 
       <h3><%= @user.name %></h3>
-      <p><%= @user.email_address %></p>
-      <p><%= @user.introduction %></p>
+      <p class="text-muted"><%= @user.email_address %></p>
+      <p><%= @user.introduction.presence || "自己紹介はまだありません" %></p>
 
-      <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-outline-primary btn-sm" %>
+      <%= link_to "プロフィール編集", edit_user_path, class: "btn btn-outline-primary btn-sm mt-2" %>
+
+    </div>
+  </div>
+
+  <!-- 統計 -->
+  <div class="row text-center mb-4">
+    <div class="col">
+      <h5><%= @spots.count %></h5>
+      <p>投稿</p>
+    </div>
+    <div class="col">
+      <h5><%= @favorites.count %></h5>
+      <p>お気に入り</p>
+    </div>
+    <div class="col">
+      <h5><%= @reviews.count %></h5>
+      <p>レビュー</p>
     </div>
   </div>
 
@@ -33,16 +50,18 @@
 
   <div class="tab-content">
 
-    <!-- スポット一覧 -->
+    <!-- スポット -->
     <div class="tab-pane fade show active" id="spots">
       <div class="row">
         <% @spots.each do |spot| %>
           <div class="col-md-4 mb-3">
             <div class="card h-100 shadow-sm">
+
               <div class="card-body">
                 <h5><%= link_to spot.name, spot_path(spot) %></h5>
-                <p><%= spot.address %></p>
+                <p class="text-muted"><%= spot.address %></p>
               </div>
+
             </div>
           </div>
         <% end %>
@@ -51,12 +70,12 @@
 
     <!-- お気に入り -->
     <div class="tab-pane fade" id="favorites">
-      <p>お気に入りはまだありません</p>
+      <p class="text-center text-muted mt-3">お気に入りはまだありません</p>
     </div>
 
     <!-- レビュー -->
     <div class="tab-pane fade" id="reviews">
-      <p>レビューはまだありません</p>
+      <p class="text-center text-muted mt-3">レビューはまだありません</p>
     </div>
 
   </div>
