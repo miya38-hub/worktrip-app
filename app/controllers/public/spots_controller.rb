@@ -21,16 +21,22 @@ class Public::SpotsController < Public::ApplicationController
   def create
     @spot = current_user.spots.build(spot_params)
     if @spot.save
-      if params[:review].present? && params[:review][:rating].present?
-        current_user.reviews.create(
-          spot: @spot,
-          rating: params[:review][:rating],
-          wifi_rating: params[:review][:wifi_rating],
-          power_rating: params[:review][:power_rating],
-          quietness_rating: params[:review][:quietness_rating],
-          workability_rating: params[:review][:workability_rating],
-          comment: params[:review][:comment]
-        )
+      if params[:review]
+       review = current_user.reviews.new(
+        spot: @spot,
+        rating: params[:review][:rating],
+        wifi_rating: params[:review][:wifi_rating],
+        power_rating: params[:review][:power_rating],
+        quietness_rating: params[:review][:quietness_rating],
+        workability_rating: params[:review][:workability_rating],
+        comment: params[:review][:comment]
+      )
+      end
+
+      if review.save
+        Rails.logger.debug "レビュー保存成功"
+      else
+        Rails.logger.debug review.errors.full_messages
       end
 
       redirect_to @spot, notice: "投稿しました"

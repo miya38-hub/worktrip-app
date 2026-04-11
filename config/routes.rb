@@ -3,9 +3,16 @@ Rails.application.routes.draw do
   
   scope module: :public do
     root "homes#top"
+    get "dashboard", to: "homes#dashboard"
     get "/about", to: "homes#about"
 
-    resources :users, only: [:new, :create, :show, :edit, :update, :destroy]
+    resources :users, only: [:new, :create, :show, :edit, :update, :destroy] do
+      member do
+        get :unsubscribe
+        patch :withdraw
+      end
+    end
+    
     resource :session, only: [:new, :create, :destroy] do
       post :guest_login
     end

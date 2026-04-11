@@ -57,6 +57,12 @@
               <%= f.submit "更新する", class: "btn btn-primary px-4" %>
             </div>
 
+            <div class="text-center mt-4">
+              <%= link_to "退会する",
+                  unsubscribe_user_path(@user),
+                  class: "btn btn-outline-danger" %>
+            </div>
+
           <% end %>
 
         </div>

@@ -9,5 +9,6 @@ class Spot < ApplicationRecord
   }
 
   validates :name,presence: true
+  validates :category, inclusion: { in: categories.keys }
   validates :address, presence: true
 end

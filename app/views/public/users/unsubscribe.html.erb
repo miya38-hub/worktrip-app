@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div class="card shadow border-0">
+        <div class="card-body text-center p-4">
+
+          <!-- アイコン -->
+          <div class="mb-3">
+            <span style="font-size: 40px;">⚠️</span>
+          </div>
+
+          <!-- タイトル -->
+          <h3 class="fw-bold text-danger mb-3">
+            本当に退会しますか？
+          </h3>
+
+          <!-- 説明 -->
+          <p class="text-muted mb-4">
+            退会すると、アカウント情報や投稿したデータは
+            <strong>すべて利用できなくなります。</strong>
+          </p>
+
+          <!-- 注意 -->
+          <div class="alert alert-warning text-start">
+            ・投稿したスポットやレビューは閲覧できなくなります<br>
+            ・同じアカウントでは再ログインできません
+          </div>
+
+          <!-- ボタン -->
+          <div class="d-flex justify-content-center gap-3 mt-4">
+
+            <%= link_to "戻る",
+              user_path,
+              class: "btn btn-outline-secondary px-4" %>
+
+            <%= button_to "退会する",
+              withdraw_user_path(@user),
+              method: :patch,
+              class: "btn btn-danger px-4" %>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

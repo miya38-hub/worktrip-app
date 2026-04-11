@@ -29,7 +29,10 @@
             <!-- カテゴリ -->
             <div class="mb-3">
               <%= f.label :category, "カテゴリ", class: "form-label" %>
-              <%= f.select :category, Spot.categories.keys.map { |k| [k.humanize, k] }, {}, class: "form-select" %>
+              <%= f.select :category,
+                Spot.categories.keys.map { |k| [k.humanize, k] },
+                { prompt: "カテゴリを選択してください" },
+                class: "form-select" %>
             </div>
 
             <!-- 住所 -->
@@ -61,44 +64,35 @@
             <hr class="my-4">
             <h4 class="mb-3">初回レビュー（任意）</h4>
 
-            <!-- 総合評価 -->
+            <%= hidden_field_tag "review[rating]", nil, id: "rating-input" %>
+            <%= hidden_field_tag "review[wifi_rating]", nil, id: "wifi-input" %>
+            <%= hidden_field_tag "review[power_rating]", nil, id: "power-input" %>
+            <%= hidden_field_tag "review[quietness_rating]", nil, id: "quiet-input" %>
+            <%= hidden_field_tag "review[workability_rating]", nil, id: "work-input" %>
+
             <div class="mb-3">
-              <label class="form-label">総合評価</label>
-              <%= select_tag "review[rating]",
-                  options_for_select([1,2,3,4,5]),
-                  class: "form-select" %>
+              <label>総合評価</label>
+              <div id="star-rating"></div>
             </div>
 
-            <!-- WiFi評価 -->
             <div class="mb-3">
-              <label class="form-label">WiFi評価</label>
-              <%= select_tag "review[wifi_rating]",
-                  options_for_select([1,2,3,4,5]),
-                  class: "form-select" %>
+              <label>WiFi</label>
+              <div id="star-wifi"></div>
             </div>
 
-            <!-- 電源評価 -->
             <div class="mb-3">
-              <label class="form-label">電源評価</label>
-              <%= select_tag "review[power_rating]",
-                  options_for_select([1,2,3,4,5]),
-                  class: "form-select" %>
+              <label>電源</label>
+              <div id="star-power"></div>
             </div>
 
-            <!-- 静かさ -->
             <div class="mb-3">
-              <label class="form-label">静かさ</label>
-              <%= select_tag "review[quietness_rating]",
-                  options_for_select([1,2,3,4,5]),
-                  class: "form-select" %>
+              <label>静かさ</label>
+              <div id="star-quiet"></div>
             </div>
 
-            <!-- 作業しやすさ -->
             <div class="mb-3">
-              <label class="form-label">作業しやすさ</label>
-              <%= select_tag "review[workability_rating]",
-                  options_for_select([1,2,3,4,5]),
-                  class: "form-select" %>
+              <label>作業しやすさ</label>
+              <div id="star-work"></div>
             </div>
 
             <!-- コメント -->

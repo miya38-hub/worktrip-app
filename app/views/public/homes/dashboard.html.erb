@@ -1,0 +1,47 @@
+<div class="container mt-4">
+
+  <!-- キャッチコピー -->
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">
+      今日の作業場所を見つけよう
+    </h2>
+    <p class="text-muted">
+      WiFi・電源・レビューから最適なスポットを
+    </p>
+  </div>
+
+  <!-- おすすめ -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>おすすめスポット</h4>
+    <%= link_to "一覧を見る", spots_path, class: "text-decoration-none" %>
+  </div>
+
+  <div class="row">
+    <% @spots.each do |spot| %>
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm h-100">
+
+          <div class="card-body">
+            <h5>
+              <%= link_to spot.name, spot_path(spot), class: "text-dark text-decoration-none" %>
+            </h5>
+
+            <p class="text-muted small"><%= spot.address %></p>
+
+            <div>
+              <% if spot.wifi %>
+                <span class="badge bg-success">WiFi</span>
+              <% end %>
+
+              <% if spot.power_supply %>
+                <span class="badge bg-primary">電源</span>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

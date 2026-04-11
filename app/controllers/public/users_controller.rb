@@ -38,6 +38,18 @@ class Public::UsersController < Public::ApplicationController
     end
   end
 
+  def unsubscribe
+    @user = current_user
+  end
+
+  def withdraw
+    @user = current_user
+    @user.update(is_active: false)
+
+    terminate_session
+    redirect_to new_user_path, notice: "退会しました"
+  end
+
   private
   
   def user_params

@@ -6,4 +6,8 @@ class Public::HomesController < Public::ApplicationController
 
   def about
   end
+
+  def dashboard
+    @spots = Spot.limit(5)
+  end
 end

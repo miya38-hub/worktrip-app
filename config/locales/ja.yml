@@ -1,0 +1,25 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      spot: スポット
+
+    attributes:
+      user:
+        name: 名前
+        email_address: メールアドレス
+        password: パスワード
+        password_confirmation: 確認用パスワード
+
+      spot:
+        name: スポット名
+        category: カテゴリ
+        address: 住所
+
+  errors:
+    messages:
+      blank: "を入力してください"
+      taken: "はすでに使用されています"
+      confirmation: "が一致しません"
+      too_short: "は%{count}文字以上で入力してください"
+      inclusion: "を選択してください"

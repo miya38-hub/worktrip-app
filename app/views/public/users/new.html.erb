@@ -1,38 +1,65 @@
-<h1>新規登録</h1>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
 
-<% if @user.errors.any? %>
-  <div style="color:red;">
-    <h3><%= @user.errors.count %>件のエラーがあります</h3>
-    <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
 
-<%= form_with model: @user, data: { turbo: false } do |f| %>
-  <div>
-    <%= f.label :name, "名前" %><br>
-    <%= f.text_field :name %>
-  </div>
+          <!-- タイトル -->
+          <h3 class="text-center mb-4 fw-bold">新規登録</h3>
 
-  <div>
-    <%= f.label :email, "メールアドレス" %><br>
-    <%= f.email_field :email_address %>
-  </div>
+          <!-- エラー表示 -->
+          <% if @user.errors.any? %>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <% [:name, :email_address, :password].each do |attr| %>
+                  <% @user.errors.full_messages_for(attr).each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
 
-  <div>
-    <%= f.label :password, "パスワード" %><br>
-    <%= f.password_field :password %>
-  </div>
+          <!-- フォーム -->
+          <%= form_with model: @user, data: { turbo: false } do |f| %>
 
-  <div>
-    <%= f.label :password_confirmation, "確認用パスワード" %> <br>
-    <%= f.password_field :password_confirmation %>
-  </div>
+            <div class="mb-3">
+              <%= f.label :name, "名前", class: "form-label small text-muted" %>
+              <%= f.text_field :name, class: "form-control form-control-lg" %>
+            </div>
 
-  <div>
-    <%= f.submit "登録" %>
+            <div class="mb-3">
+              <%= f.label :email_address, "メールアドレス", class: "form-label small text-muted" %>
+              <%= f.email_field :email_address, class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password, "パスワード", class: "form-label small text-muted" %>
+              <%= f.password_field :password, class: "form-control form-control-lg" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :password_confirmation, "確認用パスワード", class: "form-label small text-muted" %>
+              <%= f.password_field :password_confirmation, class: "form-control form-control-lg" %>
+            </div>
+
+            <%= f.submit "登録する",
+              class: "btn btn-success w-100 py-2 fw-bold" %>
+
+          <% end %>
+
+          <!-- ログインリンク -->
+          <div class="text-center mt-4">
+            <small>
+              すでにアカウントをお持ちですか？
+              <%= link_to "ログイン", new_session_path, class: "text-decoration-none" %>
+            </small>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
   </div>
-<% end %>
+</div>

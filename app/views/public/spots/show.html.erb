@@ -3,13 +3,31 @@
   <!-- スポット情報 -->
   <div class="card shadow-sm p-4 mb-4">
 
+    <!-- タイトル -->
     <h2 class="mb-2"><%= @spot.name %></h2>
     <p class="text-muted"><%= @spot.address %></p>
 
     <!-- 平均評価 -->
-    <div class="text-warning mb-2">
-      ★ <%= @spot.reviews.average(:rating)&.round(1) || "未評価" %>
-      <small class="text-muted">(<%= @spot.reviews.count %>件)</small>
+    <div class="mb-2">
+      <span class="text-warning fs-5">
+        <% avg = @spot.reviews.average(:rating)&.round(1) %>
+
+        <% if avg.present? %>
+          <% avg.floor.times do %>
+            <i class="fa-solid fa-star"></i>
+          <% end %>
+          <% (5 - avg.floor).times do %>
+            <i class="fa-regular fa-star"></i>
+          <% end %>
+          <span class="ms-2 text-dark"><%= avg %></span>
+        <% else %>
+          <span class="text-muted">未評価</span>
+        <% end %>
+      </span>
+
+      <small class="text-muted">
+        （<%= @spot.reviews.count %>件）
+      </small>
     </div>
 
     <hr>
@@ -17,11 +35,11 @@
     <!-- 設備 -->
     <div class="mb-3">
       <% if @spot.wifi %>
-        <span class="badge bg-success me-2">WiFiあり</span>
+        <span class="badge bg-success me-2">WiFi</span>
       <% end %>
 
       <% if @spot.power_supply %>
-        <span class="badge bg-primary">電源あり</span>
+        <span class="badge bg-primary">電源</span>
       <% end %>
     </div>
 
@@ -45,7 +63,11 @@
     <% if @spot.user == current_user %>
       <div>
         <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary me-2" %>
-        <%= link_to "削除", @spot, data: { turbo_method: :delete }, class: "btn btn-outline-danger" %>
+        <%= button_to "削除",
+          @spot,
+          method: :delete,
+          data: { turbo_confirm: "本当に削除しますか？" },
+          class: "btn btn-outline-danger" %>
       </div>
     <% end %>
 
@@ -73,22 +95,65 @@
               <strong><%= review.user.name %></strong>
             </div>
 
-            <!-- 星 -->
+            <!-- 総合評価 -->
             <div class="text-warning mb-2">
-              <% review.rating.to_i.times do %>★<% end %>
-              <% (5 - review.rating.to_i).times do %>☆<% end %>
+              <% review.rating.to_i.times do %>
+                <i class="fa-solid fa-star"></i>
+              <% end %>
+              <% (5 - review.rating.to_i).times do %>
+                <i class="fa-regular fa-star"></i>
+              <% end %>
             </div>
 
-            <!-- 項目評価 -->
-            <div class="small text-muted mb-2">
-              WiFi: <%= review.wifi_rating %> |
-              電源: <%= review.power_rating %> |
-              静かさ: <%= review.quietness_rating %> |
-              作業: <%= review.workability_rating %>
+            <!-- 項目別評価 -->
+            <div class="small mb-2">
+
+              <div>
+                WiFi:
+                <% review.wifi_rating.to_i.times do %>
+                  <i class="fa-solid fa-star text-warning"></i>
+                <% end %>
+                <% (5 - review.wifi_rating.to_i).times do %>
+                  <i class="fa-regular fa-star text-warning"></i>
+                <% end %>
+              </div>
+
+              <div>
+                電源:
+                <% review.power_rating.to_i.times do %>
+                  <i class="fa-solid fa-star text-warning"></i>
+                <% end %>
+                <% (5 - review.power_rating.to_i).times do %>
+                  <i class="fa-regular fa-star text-warning"></i>
+                <% end %>
+              </div>
+
+              <div>
+                静かさ:
+                <% review.quietness_rating.to_i.times do %>
+                  <i class="fa-solid fa-star text-warning"></i>
+                <% end %>
+                <% (5 - review.quietness_rating.to_i).times do %>
+                  <i class="fa-regular fa-star text-warning"></i>
+                <% end %>
+              </div>
+
+              <div>
+                作業:
+                <% review.workability_rating.to_i.times do %>
+                  <i class="fa-solid fa-star text-warning"></i>
+                <% end %>
+                <% (5 - review.workability_rating.to_i).times do %>
+                  <i class="fa-regular fa-star text-warning"></i>
+                <% end %>
+              </div>
+
             </div>
 
             <!-- コメント -->
-            <p class="mb-1"><%= review.comment.presence || "コメントなし" %></p>
+            <p class="mb-1">
+              <%= review.comment.presence || "コメントなし" %>
+            </p>
 
             <!-- 日付 -->
             <small class="text-muted">
