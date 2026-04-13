@@ -23,3 +23,4 @@ jobs:
         RAILS_ENV=production ~/.rbenv/shims/bundle exec rails db:migrate &&
         RAILS_ENV=production ~/.rbenv/shims/bundle exec rails assets:precompile &&
         sudo systemctl restart puma
+       '
