@@ -56,18 +56,17 @@
       <% else %>
         <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
       <% end %>
-      <strong><%= @spot.user.name %></strong>
+      <strong>
+        <%= link_to @spot.user.name,
+          user_path(@spot.user),
+          class: "text-primary text-decoration-underline" %>
+      </strong>
     </div>
 
     <!-- ボタン -->
     <% if @spot.user == current_user %>
       <div>
         <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary me-2" %>
-        <%= button_to "削除",
-          @spot,
-          method: :delete,
-          data: { turbo_confirm: "本当に削除しますか？" },
-          class: "btn btn-outline-danger" %>
       </div>
     <% end %>
 

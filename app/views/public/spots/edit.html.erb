@@ -62,6 +62,14 @@
 
           <% end %>
 
+         <div class="text-center mt-3">
+            <%= button_to "削除",
+              spot_path(@spot),
+              method: :delete,
+              data: { turbo_confirm: "本当に削除しますか？" },
+              class: "btn btn-outline-danger px-4" %>
+          </div>
+          
         </div>
       </div>
 

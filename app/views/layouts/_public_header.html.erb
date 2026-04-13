@@ -19,6 +19,9 @@
           <%= link_to "スポット一覧", spots_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
+          <%= link_to "新規投稿", new_spot_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
           <%= link_to "マイページ", user_path(current_user), class: "nav-link" %>
         </li>
       <% else %>

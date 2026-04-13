@@ -1,5 +1,7 @@
 class Public::UsersController < Public::ApplicationController
   allow_unauthenticated_access only: [:new, :create]
+  before_action :require_authentication, except: [:new, :create]
+  before_action :ensure_correct_user, only: [:edit, :update]
 
   def new
     @user = User.new
@@ -8,17 +10,15 @@ class Public::UsersController < Public::ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-
       start_new_session_for(@user)
-
-      redirect_to root_path, notice: "登録しました"
+      redirect_to user_path(@user), notice: "登録しました"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    @user = current_user
+    @user = User.find(params[:id])
     @spots = @user.spots
 
     @favorites = []
@@ -32,9 +32,9 @@ class Public::UsersController < Public::ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-      redirect_to user_path, notice: "プロフィールを更新しました"
+      redirect_to user_path(current_user), notice: "プロフィールを更新しました"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -51,6 +51,12 @@ class Public::UsersController < Public::ApplicationController
   end
 
   private
+
+  def ensure_correct_user
+    unless params[:id].to_i == current_user.id
+      redirect_to user_path(current_user), alert: "権限がありません"
+    end
+  end
   
   def user_params
     params.require(:user).permit(:name, :email_address, :password, :password_confirmation, :introduction, :profile_image)

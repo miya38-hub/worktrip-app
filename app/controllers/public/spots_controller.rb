@@ -10,8 +10,6 @@ class Public::SpotsController < Public::ApplicationController
   def show
     @user = current_user
     @reviews = @spot.reviews.includes(:user)
-    #@favorites = @user.favorites
-    #@reviews = @user.reviews
   end
 
   def new
@@ -22,26 +20,26 @@ class Public::SpotsController < Public::ApplicationController
     @spot = current_user.spots.build(spot_params)
     if @spot.save
       if params[:review]
-       review = current_user.reviews.new(
-        spot: @spot,
-        rating: params[:review][:rating],
-        wifi_rating: params[:review][:wifi_rating],
-        power_rating: params[:review][:power_rating],
-        quietness_rating: params[:review][:quietness_rating],
-        workability_rating: params[:review][:workability_rating],
-        comment: params[:review][:comment]
-      )
-      end
+        review = current_user.reviews.new(
+          spot: @spot,
+          rating: params[:review][:rating],
+          wifi_rating: params[:review][:wifi_rating],
+          power_rating: params[:review][:power_rating],
+          quietness_rating: params[:review][:quietness_rating],
+          workability_rating: params[:review][:workability_rating],
+          comment: params[:review][:comment]
+        )
 
-      if review.save
-        Rails.logger.debug "レビュー保存成功"
-      else
-        Rails.logger.debug review.errors.full_messages
+        if review.save
+          Rails.logger.debug "レビュー保存成功"
+        else
+          Rails.logger.debug review.errors.full_messages
+        end
       end
 
       redirect_to @spot, notice: "投稿しました"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -52,13 +50,13 @@ class Public::SpotsController < Public::ApplicationController
     if @spot.update(spot_params)
       redirect_to @spot, notice: "更新しました"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @spot.destroy
-    redirect_to spots_path, notice: "削除しました"
+    redirect_to user_path(current_user), notice: "削除しました"
   end
 
   private

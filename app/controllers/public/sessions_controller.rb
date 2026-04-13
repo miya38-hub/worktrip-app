@@ -26,6 +26,6 @@ class Public::SessionsController < Public::ApplicationController
 
   def destroy
     terminate_session
-    redirect_to root_path, notice: "ログアウトしました"
+    redirect_to about_path, notice: "ログアウトしました"
   end
 end
