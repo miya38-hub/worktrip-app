@@ -14,7 +14,9 @@
       <p class="text-muted"><%= @user.email_address %></p>
       <p><%= @user.introduction.presence || "自己紹介はまだありません" %></p>
 
-      <%= link_to "プロフィール編集", edit_user_path, class: "btn btn-outline-primary btn-sm mt-2" %>
+      <% if @user == current_user %>
+        <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-primary" %>
+      <% end %>
 
     </div>
   </div>
