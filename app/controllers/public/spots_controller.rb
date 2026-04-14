@@ -4,12 +4,15 @@ class Public::SpotsController < Public::ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.all
+    @spots = Spot.includes(:comments, :reviews).all
   end
 
   def show
     @user = current_user
     @reviews = @spot.reviews.includes(:user)
+
+    @comments = @spot.comments.includes(:user)
+    @comment = Comment.new
   end
 
   def new

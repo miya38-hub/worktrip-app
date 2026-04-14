@@ -17,7 +17,10 @@ Rails.application.routes.draw do
     resource :session, only: [:new, :create, :destroy] do
       post :guest_login
     end
-    resources :spots
 
+    resources :spots do
+      resources :reviews, only: [:create, :edit, :update, :destroy]
+      resources :comments, only: [:create, :update, :destroy]
+    end
   end
 end
