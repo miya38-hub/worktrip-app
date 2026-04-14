@@ -4,7 +4,7 @@ class Public::SpotsController < Public::ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.includes(:comments, :reviews).all
+    @spots = Spot.includes(:comments, :reviews).order(created_at: :desc).page(params[:page]).per(6)
   end
 
   def show

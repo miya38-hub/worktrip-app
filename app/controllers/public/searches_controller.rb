@@ -7,9 +7,9 @@ class Public::SearchesController < Public::ApplicationController
     @match = params[:match]
 
     if @range == "User"
-      @users = search_users(@word, @match)
+      @users = search_users(@word, @match).page(params[:page]).per(10)
     elsif @range == "Spot"
-      @spots = search_spots(@word, @match)
+      @spots = search_spots(@word, @match).page(params[:page]).per(10)
     end
   end
 

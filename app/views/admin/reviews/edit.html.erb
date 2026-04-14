@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h2 class="fw-bold mb-4">レビュー編集</h2>
+
+      <%= form_with model: [:admin, @spot, @review], local: true do |f| %>
+        <% if @review.errors.any? %>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <% @review.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= f.label :rating, "総合評価", class: "form-label" %>
+          <%= f.number_field :rating, class: "form-control", min: 1, max: 5 %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :wifi_rating, "WiFi評価", class: "form-label" %>
+          <%= f.number_field :wifi_rating, class: "form-control", min: 1, max: 5 %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :power_rating, "電源評価", class: "form-label" %>
+          <%= f.number_field :power_rating, class: "form-control", min: 1, max: 5 %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :quietness_rating, "静かさ評価", class: "form-label" %>
+          <%= f.number_field :quietness_rating, class: "form-control", min: 1, max: 5 %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :workability_rating, "作業しやすさ評価", class: "form-label" %>
+          <%= f.number_field :workability_rating, class: "form-control", min: 1, max: 5 %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :comment, "コメント", class: "form-label" %>
+          <%= f.text_area :comment, rows: 4, class: "form-control" %>
+        </div>
+
+        <div class="d-flex gap-2">
+          <%= f.submit "更新する", class: "btn btn-primary" %>
+          <%= link_to "戻る", admin_spot_reviews_path(@spot), class: "btn btn-outline-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

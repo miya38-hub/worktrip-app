@@ -19,7 +19,7 @@ class Public::UsersController < Public::ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @spots = @user.spots.includes(:comments, :reviews)
+    @spots = @user.spots.includes(:comments, :reviews).order(created_at: :desc).page(params[:page]).per(6)
 
     @favorites = []
     @reviews = []
