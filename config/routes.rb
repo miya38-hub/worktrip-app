@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     root "homes#top"
     get "dashboard", to: "homes#dashboard"
     get "/about", to: "homes#about"
+    get "/search", to: "searches#search"
 
     resources :users, only: [:new, :create, :show, :edit, :update, :destroy] do
       member do
@@ -17,5 +18,6 @@ Rails.application.routes.draw do
       post :guest_login
     end
     resources :spots
+
   end
 end
