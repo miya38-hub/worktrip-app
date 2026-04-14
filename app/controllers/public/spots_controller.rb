@@ -10,6 +10,9 @@ class Public::SpotsController < Public::ApplicationController
   def show
     @user = current_user
     @reviews = @spot.reviews.includes(:user)
+
+    @comments = @spot.comments.includes(:user)
+    @comment = Comment.new
   end
 
   def new

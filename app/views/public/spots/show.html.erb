@@ -1,95 +1,127 @@
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
 
   <!-- スポット情報 -->
-  <div class="card shadow-sm p-4 mb-4">
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
 
-    <!-- タイトル -->
-    <h2 class="mb-2"><%= @spot.name %></h2>
-    <p class="text-muted"><%= @spot.address %></p>
+      <!-- タイトル・住所・編集 -->
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+        <div>
+          <h2 class="mb-1 fw-bold"><%= @spot.name %></h2>
+          <p class="text-muted mb-0">
+            <i class="fa-solid fa-location-dot me-1"></i>
+            <%= @spot.address %>
+          </p>
+        </div>
 
-    <!-- 平均評価 -->
-    <div class="mb-2">
-      <span class="text-warning fs-5">
+        <% if @spot.user == current_user %>
+          <div>
+            <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- 評価 -->
+      <div class="mb-3">
         <% avg = @spot.reviews.average(:rating)&.round(1) %>
 
-        <% if avg.present? %>
-          <% avg.floor.times do %>
-            <i class="fa-solid fa-star"></i>
+        <div class="d-flex align-items-center flex-wrap gap-2">
+          <span class="text-warning fs-5">
+            <% if avg.present? %>
+              <% avg.floor.times do %>
+                <i class="fa-solid fa-star"></i>
+              <% end %>
+              <% (5 - avg.floor).times do %>
+                <i class="fa-regular fa-star"></i>
+              <% end %>
+            <% else %>
+              <span class="text-muted fs-6">未評価</span>
+            <% end %>
+          </span>
+
+          <% if avg.present? %>
+            <span class="fw-bold"><%= avg %></span>
           <% end %>
-          <% (5 - avg.floor).times do %>
-            <i class="fa-regular fa-star"></i>
-          <% end %>
-          <span class="ms-2 text-dark"><%= avg %></span>
-        <% else %>
-          <span class="text-muted">未評価</span>
-        <% end %>
-      </span>
 
-      <small class="text-muted">
-        （<%= @spot.reviews.count %>件）
-      </small>
-    </div>
+          <span class="text-muted small">
+            レビュー <%= @spot.reviews.count %>件
+          </span>
 
-    <hr>
-
-    <!-- 設備 -->
-    <div class="mb-3">
-      <% if @spot.wifi %>
-        <span class="badge bg-success me-2">WiFi</span>
-      <% end %>
-
-      <% if @spot.power_supply %>
-        <span class="badge bg-primary">電源</span>
-      <% end %>
-    </div>
-
-    <!-- 説明 -->
-    <div class="mb-3">
-      <h5>説明</h5>
-      <p><%= @spot.description.presence || "説明はまだありません" %></p>
-    </div>
-
-    <!-- 投稿者 -->
-    <div class="d-flex align-items-center mb-3">
-      <% if @spot.user.profile_image.attached? %>
-        <%= image_tag @spot.user.profile_image, class: "rounded-circle me-2", width: 40, height: 40 %>
-      <% else %>
-        <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
-      <% end %>
-      <strong>
-        <%= link_to @spot.user.name,
-          user_path(@spot.user),
-          class: "text-primary text-decoration-underline" %>
-      </strong>
-    </div>
-
-    <!-- ボタン -->
-    <% if @spot.user == current_user %>
-      <div>
-        <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary me-2" %>
+          <span class="text-muted small">
+            コメント <%= @comments.count %>件
+          </span>
+        </div>
       </div>
-    <% end %>
 
+      <hr>
+
+      <!-- 設備 -->
+      <div class="mb-3">
+        <h6 class="fw-bold mb-2">設備</h6>
+        <% if @spot.wifi || @spot.power_supply %>
+          <% if @spot.wifi %>
+            <span class="badge bg-success me-2 px-3 py-2">WiFiあり</span>
+          <% end %>
+
+          <% if @spot.power_supply %>
+            <span class="badge bg-primary px-3 py-2">電源あり</span>
+          <% end %>
+        <% else %>
+          <p class="text-muted mb-0">設備情報はまだありません</p>
+        <% end %>
+      </div>
+
+      <!-- 説明 -->
+      <div class="mb-0">
+        <h6 class="fw-bold mb-2">説明</h6>
+        <p class="mb-0 text-secondary">
+          <%= @spot.description.presence || "説明はまだありません" %>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 投稿者 -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-3">
+      <div class="d-flex align-items-center">
+        <% if @spot.user.profile_image.attached? %>
+          <%= image_tag @spot.user.profile_image, class: "rounded-circle me-3 border", width: 48, height: 48 %>
+        <% else %>
+          <%= image_tag "no_image.jpg", class: "rounded-circle me-3 border", width: 48, height: 48 %>
+        <% end %>
+
+        <div>
+          <div class="text-muted small">投稿者</div>
+          <strong>
+            <%= link_to @spot.user.name,
+              user_path(@spot.user),
+              class: "link-primary text-decoration-none" %>
+          </strong>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- レビュー -->
-  <div>
-
-    <h4 class="mb-3">レビュー</h4>
+  <div class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">レビュー</h4>
+      <span class="badge bg-light text-dark border"><%= @reviews.count %>件</span>
+    </div>
 
     <% if @reviews.any? %>
-
       <% @reviews.each do |review| %>
         <div class="card mb-3 shadow-sm border-0">
-
           <div class="card-body">
 
             <!-- 投稿者 -->
-            <div class="d-flex align-items-center mb-2">
+            <div class="d-flex align-items-center mb-3">
               <% if review.user.profile_image.attached? %>
-                <%= image_tag review.user.profile_image, class: "rounded-circle me-2", width: 40, height: 40 %>
+                <%= image_tag review.user.profile_image, class: "rounded-circle me-2 border", width: 40, height: 40 %>
               <% else %>
-                <%= image_tag "no_image.jpg", class: "rounded-circle me-2", width: 40, height: 40 %>
+                <%= image_tag "no_image.jpg", class: "rounded-circle me-2 border", width: 40, height: 40 %>
               <% end %>
               <strong><%= review.user.name %></strong>
             </div>
@@ -105,9 +137,8 @@
             </div>
 
             <!-- 項目別評価 -->
-            <div class="small mb-2">
-
-              <div>
+            <div class="row small mb-3">
+              <div class="col-md-6 mb-1">
                 WiFi:
                 <% review.wifi_rating.to_i.times do %>
                   <i class="fa-solid fa-star text-warning"></i>
@@ -117,7 +148,7 @@
                 <% end %>
               </div>
 
-              <div>
+              <div class="col-md-6 mb-1">
                 電源:
                 <% review.power_rating.to_i.times do %>
                   <i class="fa-solid fa-star text-warning"></i>
@@ -127,7 +158,7 @@
                 <% end %>
               </div>
 
-              <div>
+              <div class="col-md-6 mb-1">
                 静かさ:
                 <% review.quietness_rating.to_i.times do %>
                   <i class="fa-solid fa-star text-warning"></i>
@@ -137,7 +168,7 @@
                 <% end %>
               </div>
 
-              <div>
+              <div class="col-md-6 mb-1">
                 作業:
                 <% review.workability_rating.to_i.times do %>
                   <i class="fa-solid fa-star text-warning"></i>
@@ -146,11 +177,10 @@
                   <i class="fa-regular fa-star text-warning"></i>
                 <% end %>
               </div>
-
             </div>
 
             <!-- コメント -->
-            <p class="mb-1">
+            <p class="mb-2 text-secondary">
               <%= review.comment.presence || "コメントなし" %>
             </p>
 
@@ -160,14 +190,87 @@
             </small>
 
           </div>
-
         </div>
       <% end %>
-
     <% else %>
-      <p class="text-muted">まだレビューはありません</p>
+      <div class="card border-0 bg-light">
+        <div class="card-body text-center text-muted py-4">
+          まだレビューはありません
+        </div>
+      </div>
     <% end %>
+  </div>
 
+  <!-- コメント -->
+  <div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">コメント</h4>
+      <span class="badge bg-light text-dark border"><%= @comments.count %>件</span>
+    </div>
+
+    <% if @comments.any? %>
+      <% @comments.each do |comment| %>
+        <div class="card mb-3 shadow-sm border-0">
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <div>
+                <strong class="text-primary"><%= comment.user.name %></strong><br>
+                <small class="text-muted">
+                  <%= comment.created_at.strftime("%Y/%m/%d") %>
+                </small>
+              </div>
+
+              <% if comment.user == current_user %>
+                <%= link_to "削除",
+                  spot_comment_path(@spot, comment),
+                  data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+                  class: "btn btn-outline-danger btn-sm" %>
+              <% end %>
+            </div>
+
+            <p class="mb-0 text-secondary"><%= comment.comment %></p>
+
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="card border-0 bg-light mb-4">
+        <div class="card-body text-center text-muted py-4">
+          まだコメントはありません
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- コメントフォーム -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-3">コメントする</h5>
+
+      <%= form_with model: [@spot, @comment], local: true do |f| %>
+        <% if @comment.errors.any? %>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <% @comment.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= f.text_area :comment,
+            rows: 4,
+            class: "form-control",
+            placeholder: "このスポットについてコメントを書いてみましょう" %>
+        </div>
+
+        <div class="text-end">
+          <%= f.submit "送信", class: "btn btn-primary px-4" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
 </div>
