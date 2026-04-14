@@ -17,7 +17,26 @@ Rails.application.routes.draw do
     resource :session, only: [:new, :create, :destroy] do
       post :guest_login
     end
-    resources :spots
 
+    resources :spots do
+      resources :reviews, only: [:create, :edit, :update, :destroy]
+      resources :comments, only: [:create, :update, :destroy]
+    end
+  end
+
+  namespace :admin do
+    get "login", to: "sessions#new"
+    post "login", to: "sessions#create"
+    delete "logout", to: "sessions#destroy"
+
+    resources :users, only: [:index, :show] do
+      member do
+        patch :withdraw
+      end
+    end
+
+    resources :spots, only: [:index, :show, :edit, :update, :destroy] do
+      resources :reviews, only: [:index, :edit, :update, :destroy]
+    end
   end
 end

@@ -1,0 +1,47 @@
+<div class="container mt-4 mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">スポット詳細</h2>
+    <%= link_to "一覧へ戻る", admin_spots_path, class: "btn btn-outline-secondary" %>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-4">
+      <div class="mb-3"><strong>ID:</strong> <%= @spot.id %></div>
+      <div class="mb-3"><strong>スポット名:</strong> <%= @spot.name %></div>
+      <div class="mb-3"><strong>投稿者:</strong> <%= @spot.user.name %></div>
+      <div class="mb-3"><strong>住所:</strong> <%= @spot.address %></div>
+      <div class="mb-3"><strong>カテゴリ:</strong> <%= @spot.category %></div>
+      <div class="mb-3"><strong>WiFi:</strong> <%= @spot.wifi ? "あり" : "なし" %></div>
+      <div class="mb-3"><strong>電源:</strong> <%= @spot.power_supply ? "あり" : "なし" %></div>
+      <div class="mb-3"><strong>説明:</strong> <%= @spot.description.presence || "未入力" %></div>
+
+      <div class="d-flex gap-2 mt-4">
+        <%= link_to "編集", edit_admin_spot_path(@spot), class: "btn btn-outline-primary" %>
+        <%= link_to "レビュー一覧", admin_spot_reviews_path(@spot), class: "btn btn-outline-info" %>
+        <%= button_to "削除",
+          admin_spot_path(@spot),
+          method: :delete,
+          data: { turbo_confirm: "本当に削除しますか？" },
+          class: "btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h5 class="fw-bold mb-3">レビュー一覧（<%= @reviews.count %>件）</h5>
+      <% if @reviews.any? %>
+        <% @reviews.each do |review| %>
+          <div class="border rounded p-3 mb-3">
+            <strong><%= review.user.name %></strong>
+            <div class="small text-muted mb-2"><%= review.created_at.strftime("%Y/%m/%d") %></div>
+            <div>総合評価: <%= review.rating %></div>
+            <div>コメント: <%= review.comment.presence || "なし" %></div>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted mb-0">レビューはまだありません</p>
+      <% end %>
+    </div>
+  </div>
+</div>

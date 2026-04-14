@@ -24,7 +24,7 @@
   <!-- 統計 -->
   <div class="row text-center mb-4">
     <div class="col">
-      <h5><%= @spots.count %></h5>
+      <h5><%= @spots.total_count %></h5>
       <p>投稿</p>
     </div>
     <div class="col">
@@ -58,15 +58,17 @@
         <% @spots.each do |spot| %>
           <div class="col-md-4 mb-3">
             <div class="card h-100 shadow-sm">
-
               <div class="card-body">
                 <h5><%= link_to spot.name, spot_path(spot) %></h5>
                 <p class="text-muted"><%= spot.address %></p>
               </div>
-
             </div>
           </div>
         <% end %>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @spots %>
       </div>
     </div>
 
