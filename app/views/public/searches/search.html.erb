@@ -13,13 +13,13 @@
 <div class="container mt-4">
   <h2 class="mb-4">検索結果</h2>
 
-  <p class="text-muted">
-    <%= range_label[@range] %>検索 /
-    キーワード: <%= @word %> /
-    検索方法: <%= match_label[@match] %>
-  </p>
-
   <% if @range == "User" %>
+    <p class="text-muted">
+      <%= range_label[@range] %>検索 /
+      キーワード: <%= @word.presence || "なし" %> /
+      検索方法: <%= match_label[@match] %>
+    </p>
+
     <% if @users.present? %>
       <% @users.each do |user| %>
         <div class="card mb-3 shadow-sm">
@@ -31,23 +31,64 @@
           </div>
         </div>
       <% end %>
+
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @users %>
+      </div>
     <% else %>
       <p>該当するユーザーがいません。</p>
     <% end %>
 
   <% elsif @range == "Spot" %>
+    <p class="text-muted">
+      投稿検索 /
+      キーワード: <%= @word.presence || "なし" %> /
+      カテゴリ: <%= @category.presence || "なし" %> /
+      地域: <%= @region.presence || "なし" %> /
+      WiFi: <%= @wifi == "1" ? "あり" : "指定なし" %> /
+      電源: <%= @power_supply == "1" ? "あり" : "指定なし" %> /
+      検索方法: <%= match_label[@match] %>
+    </p>
+
     <% if @spots.present? %>
-      <% @spots.each do |spot| %>
-        <div class="card mb-3 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">
-              <%= link_to spot.name, spot_path(spot), class: "text-decoration-none" %>
-            </h5>
-            <p class="text-muted mb-1">住所: <%= spot.address %></p>
-            <p class="text-muted mb-0">投稿者: <%= spot.user.name %></p>
+      <div class="row">
+        <% @spots.each do |spot| %>
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+              <div class="card-body p-4 d-flex flex-column">
+
+                <h5 class="fw-bold mb-2">
+                  <%= link_to spot.name, spot_path(spot), class: "text-decoration-none text-dark" %>
+                </h5>
+
+                <p class="text-muted small mb-2">
+                  <i class="fa-solid fa-location-dot me-1"></i>
+                  <%= spot.address %>
+                </p>
+
+                <p class="text-secondary small mb-3 flex-grow-1">
+                  <%= truncate(spot.description.presence || "説明はまだありません", length: 60) %>
+                </p>
+
+                <div class="mb-3">
+                  <span class="badge bg-secondary me-2 px-3 py-2">
+                    <%= spot.category_i18n %>
+                  </span>
+                </div>
+
+                <div class="mt-auto">
+                  <%= link_to "詳細を見る", spot_path(spot), class: "btn btn-outline-primary btn-sm" %>
+                </div>
+
+              </div>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @spots %>
+      </div>
     <% else %>
       <p>該当する投稿がありません。</p>
     <% end %>

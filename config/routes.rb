@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get "/about", to: "homes#about"
     get "/search", to: "searches#search"
 
-    resources :users, only: [:new, :create, :show, :edit, :update, :destroy] do
+    resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
         get :unsubscribe
         patch :withdraw
@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :spots do
       resources :reviews, only: [:create, :edit, :update, :destroy]
       resources :comments, only: [:create, :update, :destroy]
+      resource :favorite, only: [:create, :destroy]
     end
   end
 

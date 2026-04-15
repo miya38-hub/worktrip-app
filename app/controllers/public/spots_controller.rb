@@ -4,14 +4,41 @@ class Public::SpotsController < Public::ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.includes(:comments, :reviews).order(created_at: :desc).page(params[:page]).per(6)
+    @spots = Spot.includes(:comments, :reviews)
+
+    # 🔍 キーワード検索
+    if params[:word].present?
+      @spots = @spots.where("name LIKE ?", "%#{params[:word]}%")
+    end
+
+    # 🔍 カテゴリ
+    if params[:category].present?
+      @spots = @spots.where(category: params[:category])
+    end
+
+    # 🔍 地域
+    if params[:region].present?
+      @spots = @spots.where("address LIKE ?", "%#{params[:region]}%")
+    end
+
+    # 🔍 WiFi
+    if params[:wifi].present?
+      @spots = @spots.where(wifi: params[:wifi] == "1")
+    end
+
+    # 🔍 電源
+    if params[:power_supply].present?
+      @spots = @spots.where(power_supply: params[:power_supply] == "1")
+    end
+
+    @spots = @spots.order(created_at: :desc).page(params[:page]).per(6)
   end
 
   def show
     @user = current_user
-    @reviews = @spot.reviews.includes(:user)
+    @reviews = @spot.reviews.includes(:user).order(created_at: :desc)
 
-    @comments = @spot.comments.includes(:user)
+    @comments = @spot.comments.includes(:user).order(created_at: :desc)
     @comment = Comment.new
   end
 

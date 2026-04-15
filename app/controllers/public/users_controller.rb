@@ -3,6 +3,15 @@ class Public::UsersController < Public::ApplicationController
   before_action :require_authentication, except: [:new, :create]
   before_action :ensure_correct_user, only: [:edit, :update]
 
+  def index
+    @users = User.all
+
+    if params[:word].present?
+      @users = @users.where("name LIKE ?", "%#{params[:word]}%")
+    end
+
+    @users = @users.order(created_at: :desc).page(params[:page]).per(10)
+  end
   def new
     @user = User.new
   end
@@ -21,8 +30,8 @@ class Public::UsersController < Public::ApplicationController
     @user = User.find(params[:id])
     @spots = @user.spots.includes(:comments, :reviews).order(created_at: :desc).page(params[:page]).per(6)
 
-    @favorites = []
-    @reviews = []
+    @favorites = @user.favorite_spots
+    @reviews = @user.reviews
   end
 
   def edit

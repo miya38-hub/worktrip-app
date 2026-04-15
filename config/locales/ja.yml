@@ -16,6 +16,13 @@ ja:
         category: カテゴリ
         address: 住所
 
+  enums:
+    spot:
+      category:
+        coworking: "コワーキング"
+        hotel: "ホテル"
+        library: "図書館"
+
   errors:
     messages:
       blank: "を入力してください"

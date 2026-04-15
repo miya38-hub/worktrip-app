@@ -1,0 +1,66 @@
+<div class="container mt-4">
+
+  <h2 class="fw-bold mb-4">ユーザー一覧</h2>
+
+  <!-- 🔍 検索 -->
+  <%= form_with url: users_path, method: :get, local: true, class: "mb-4" do |f| %>
+    <div class="row g-2">
+      <div class="col-md-10">
+        <%= f.text_field :word,
+          value: params[:word],
+          placeholder: "ユーザー名で検索",
+          class: "form-control" %>
+      </div>
+
+      <div class="col-md-2">
+        <%= f.submit "検索", class: "btn btn-primary w-100" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- 👤 一覧 -->
+  <% if @users.any? %>
+    <div class="row">
+      <% @users.each do |user| %>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center">
+
+              <!-- プロフィール画像 -->
+              <% if user.profile_image.attached? %>
+                <%= image_tag user.profile_image,
+                  class: "rounded-circle mb-3",
+                  size: "80x80" %>
+              <% else %>
+                <div class="bg-secondary rounded-circle mx-auto mb-3"
+                     style="width:80px; height:80px;"></div>
+              <% end %>
+
+              <!-- 名前 -->
+              <h5 class="fw-bold">
+                <%= link_to user.name, user_path(user), class: "text-decoration-none" %>
+              </h5>
+
+              <!-- 紹介 -->
+              <p class="text-muted small">
+                <%= truncate(user.introduction.presence || "自己紹介はありません", length: 50) %>
+              </p>
+
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- ページネーション -->
+    <div class="d-flex justify-content-center mt-4">
+      <%= paginate @users %>
+    </div>
+
+  <% else %>
+    <div class="text-center text-muted mt-5">
+      ユーザーが見つかりません
+    </div>
+  <% end %>
+
+</div>

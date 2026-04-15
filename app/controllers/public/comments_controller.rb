@@ -11,8 +11,8 @@ class Public::CommentsController < Public::ApplicationController
     if @comment.save
       redirect_to spot_path(@spot), notice: "コメントを投稿しました"
     else
-      @reviews = @spot.reviews.includes(:user)
-      @comments = @spot.comments.includes(:user)
+      @reviews = @spot.reviews.includes(:user).order(created_at: :desc)
+      @comments = @spot.comments.includes(:user).order(created_at: :desc)
       render "public/spots/show", status: :unprocessable_entity
     end
   end
@@ -21,8 +21,8 @@ class Public::CommentsController < Public::ApplicationController
     if @comment.update(comment_params)
       redirect_to spot_path(@spot), notice: "コメントを更新しました"
     else
-      @reviews = @spot.reviews.includes(:user)
-      @comments = @spot.comments.includes(:user)
+      @reviews = @spot.reviews.includes(:user).order(created_at: :desc)
+      @comments = @spot.comments.includes(:user).order(created_at: :desc)
       render "public/spots/show", status: :unprocessable_entity
     end
   end

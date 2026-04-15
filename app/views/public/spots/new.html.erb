@@ -29,8 +29,9 @@
             <!-- カテゴリ -->
             <div class="mb-3">
               <%= f.label :category, "カテゴリ", class: "form-label" %>
+
               <%= f.select :category,
-                Spot.categories.keys.map { |k| [k.humanize, k] },
+                Spot.categories.keys.map { |k| [I18n.t("enums.spot.category.#{k}"), k] },
                 { prompt: "カテゴリを選択してください" },
                 class: "form-select" %>
             </div>
@@ -71,7 +72,7 @@
             <%= hidden_field_tag "review[workability_rating]", nil, id: "work-input" %>
 
             <div class="mb-3">
-              <label>総合評価</label>
+              <label class="form-label">総合評価</label>
               <div id="star-rating"></div>
             </div>
 

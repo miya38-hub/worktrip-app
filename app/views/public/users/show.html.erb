@@ -1,44 +1,65 @@
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
 
   <!-- プロフィール -->
-  <div class="card shadow-sm mb-4">
-    <div class="card-body text-center">
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body text-center p-4">
 
       <% if @user.profile_image.attached? %>
-        <%= image_tag @user.profile_image.variant(resize_to_fill: [120,120]), class: "rounded-circle mb-3" %>
+        <%= image_tag @user.profile_image.variant(resize_to_fill: [120,120]),
+          class: "rounded-circle mb-3 border shadow-sm" %>
       <% else %>
-        <%= image_tag "no_image.jpg", class: "rounded-circle mb-3", width: 120, height: 120 %>
+        <%= image_tag "no_image.jpg",
+          class: "rounded-circle mb-3 border shadow-sm",
+          width: 120, height: 120 %>
       <% end %>
 
-      <h3><%= @user.name %></h3>
-      <p class="text-muted"><%= @user.email_address %></p>
-      <p><%= @user.introduction.presence || "自己紹介はまだありません" %></p>
+      <h3 class="fw-bold mb-1"><%= @user.name %></h3>
+      <p class="text-muted mb-2"><%= @user.email_address %></p>
+      <p class="text-secondary mb-3">
+        <%= @user.introduction.presence || "自己紹介はまだありません" %>
+      </p>
 
       <% if @user == current_user %>
-        <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-primary" %>
+        <%= link_to "プロフィール編集",
+          edit_user_path(@user),
+          class: "btn btn-primary px-4" %>
       <% end %>
 
     </div>
   </div>
 
   <!-- 統計 -->
-  <div class="row text-center mb-4">
-    <div class="col">
-      <h5><%= @spots.total_count %></h5>
-      <p>投稿</p>
+  <div class="row text-center mb-4 g-3">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body py-4">
+          <h4 class="fw-bold mb-1"><%= @spots.total_count %></h4>
+          <p class="text-muted mb-0">投稿</p>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <h5><%= @favorites.count %></h5>
-      <p>お気に入り</p>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body py-4">
+          <h4 class="fw-bold mb-1"><%= @favorites.count %></h4>
+          <p class="text-muted mb-0">お気に入り</p>
+        </div>
+      </div>
     </div>
-    <div class="col">
-      <h5><%= @reviews.count %></h5>
-      <p>レビュー</p>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body py-4">
+          <h4 class="fw-bold mb-1"><%= @reviews.count %></h4>
+          <p class="text-muted mb-0">レビュー</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- タブ -->
-  <ul class="nav nav-tabs mb-3">
+  <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
       <a class="nav-link active" data-bs-toggle="tab" href="#spots">スポット</a>
     </li>
@@ -54,32 +75,168 @@
 
     <!-- スポット -->
     <div class="tab-pane fade show active" id="spots">
-      <div class="row">
-        <% @spots.each do |spot| %>
-          <div class="col-md-4 mb-3">
-            <div class="card h-100 shadow-sm">
-              <div class="card-body">
-                <h5><%= link_to spot.name, spot_path(spot) %></h5>
-                <p class="text-muted"><%= spot.address %></p>
+      <% if @spots.any? %>
+        <div class="row">
+          <% @spots.each do |spot| %>
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 d-flex flex-column">
+
+                  <!-- タイトル -->
+                  <h5 class="fw-bold mb-2">
+                    <%= link_to spot.name,
+                      spot_path(spot),
+                      class: "text-decoration-none text-dark" %>
+                  </h5>
+
+                  <!-- 住所 -->
+                  <p class="text-muted small mb-3">
+                    <i class="fa-solid fa-location-dot me-1"></i>
+                    <%= spot.address %>
+                  </p>
+
+                  <!-- 説明 -->
+                  <p class="text-secondary small mb-3 flex-grow-1">
+                    <%= truncate(spot.description.presence || "説明はまだありません", length: 60) %>
+                  </p>
+
+                  <!-- バッジ -->
+                  <div class="mb-3">
+                    <% if spot.wifi %>
+                      <span class="badge bg-success me-2 px-3 py-2">WiFi</span>
+                    <% end %>
+
+                    <% if spot.power_supply %>
+                      <span class="badge bg-primary me-2 px-3 py-2">電源</span>
+                    <% end %>
+
+                    <!-- コメント数 -->
+                    <span class="badge bg-secondary px-3 py-2">
+                      💬 <%= spot.comments.count %>
+                    </span>
+                  </div>
+
+                  <!-- 下部 -->
+                  <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                    <small class="text-muted">
+                      レビュー <%= spot.reviews.count %>件
+                    </small>
+
+                    <%= link_to "詳細",
+                      spot_path(spot),
+                      class: "btn btn-outline-primary btn-sm" %>
+                  </div>
+
+                </div>
               </div>
             </div>
-          </div>
-        <% end %>
-      </div>
+          <% end %>
+        </div>
 
-      <div class="d-flex justify-content-center mt-4">
-        <%= paginate @spots %>
-      </div>
+        <div class="d-flex justify-content-center mt-4">
+          <%= paginate @spots %>
+        </div>
+
+      <% else %>
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center text-muted py-5">
+            まだ投稿がありません
+          </div>
+        </div>
+      <% end %>
     </div>
 
     <!-- お気に入り -->
     <div class="tab-pane fade" id="favorites">
-      <p class="text-center text-muted mt-3">お気に入りはまだありません</p>
+
+      <% if @favorites.any? %>
+        <div class="row">
+          <% @favorites.each do |spot| %>
+            <div class="col-md-6 col-lg-4 mb-4">
+              <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4 d-flex flex-column">
+
+                  <h5 class="fw-bold mb-2">
+                    <%= link_to spot.name,
+                      spot_path(spot),
+                      class: "text-decoration-none text-dark" %>
+                  </h5>
+
+                  <p class="text-muted small mb-3">
+                    <i class="fa-solid fa-location-dot me-1"></i>
+                    <%= spot.address %>
+                  </p>
+
+                  <p class="text-secondary small mb-3 flex-grow-1">
+                    <%= truncate(spot.description.presence || "説明はまだありません", length: 60) %>
+                  </p>
+
+                  <div class="mb-3">
+                    <% if spot.wifi %>
+                      <span class="badge bg-success me-2 px-3 py-2">WiFi</span>
+                    <% end %>
+
+                    <% if spot.power_supply %>
+                      <span class="badge bg-primary me-2 px-3 py-2">電源</span>
+                    <% end %>
+
+                    <span class="badge bg-danger px-3 py-2">
+                      ❤️ <%= spot.favorites.count %>
+                    </span>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                    <small class="text-muted">
+                      レビュー <%= spot.reviews.count %>件
+                    </small>
+
+                    <%= button_to "解除",
+                      spot_favorite_path(spot),
+                      method: :delete,
+                      class: "btn btn-outline-danger btn-sm" %>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      <% else %>
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center text-muted py-5">
+            お気に入りはまだありません
+          </div>
+        </div>
+      <% end %>
+
     </div>
 
     <!-- レビュー -->
     <div class="tab-pane fade" id="reviews">
-      <p class="text-center text-muted mt-3">レビューはまだありません</p>
+      <% if @reviews.any? %>
+        <% @reviews.each do |review| %>
+          <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+              <p class="mb-2"><strong>スポット:</strong>
+                <%= link_to review.spot.name, spot_path(review.spot) %>
+              </p>
+
+              <p class="mb-1">評価: ⭐ <%= review.rating %></p>
+
+              <p class="text-muted small">
+                投稿日: <%= review.created_at.strftime("%Y/%m/%d") %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="card border-0 bg-light">
+          <div class="card-body text-center text-muted py-5">
+            レビューはまだありません
+          </div>
+        </div>
+      <% end %>
     </div>
 
   </div>

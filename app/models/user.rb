@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :spots, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_spots, through: :favorites, source: :spot
 
   has_one_attached :profile_image
 
@@ -21,9 +23,14 @@ class User < ApplicationRecord
     end
   end
 
+  def favorited?(spot)
+    favorites.exists?(spot_id: spot.id)
+  end
+  
   private
 
   def set_active_default
     self.is_active = true if is_active.nil?
   end
+
 end

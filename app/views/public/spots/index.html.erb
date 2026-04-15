@@ -1,3 +1,90 @@
+<% if authenticated? %>
+  <div class="bg-light border-bottom py-3">
+    <div class="container">
+
+      <%= form_with url: spots_path, method: :get, local: true do |f| %>
+
+        <div class="card shadow-sm border-0 p-3">
+
+          <!-- 🔥 フィルター（上段） -->
+          <div class="row g-3 align-items-end mb-3">
+
+            <div class="col-md-2">
+              <label class="form-label small text-muted">検索対象</label>
+              <%= f.select :range,
+                options_for_select([["投稿", "Spot"], ["ユーザー", "User"]], params[:range]),
+                {},
+                class: "form-select" %>
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small text-muted">カテゴリ</label>
+              <%= f.select :category,
+                options_for_select(
+                  [["すべて", ""]] + Spot.categories.keys.map { |c| [I18n.t("enums.spot.category.#{c}"), c] },
+                  params[:category]
+                ),
+                {},
+                class: "form-select" %>
+            </div>
+
+            <!-- チェックボックス -->
+            <div class="col-md-4">
+              <label class="form-label small text-muted">設備</label>
+              <div class="d-flex gap-4">
+                <div class="form-check">
+                  <%= f.check_box :wifi, { checked: params[:wifi] == "1", class: "form-check-input" }, "1", "0" %>
+                  <%= f.label :wifi, "WiFiあり", class: "form-check-label" %>
+                </div>
+
+                <div class="form-check">
+                  <%= f.check_box :power_supply, { checked: params[:power_supply] == "1", class: "form-check-input" }, "1", "0" %>
+                  <%= f.label :power_supply, "電源あり", class: "form-check-label" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- ボタン -->
+            <div class="col-md-3 d-flex gap-2">
+              <%= f.submit "🔍 検索",
+                class: "btn btn-primary w-100 fw-bold shadow-sm" %>
+
+              <%= link_to "リセット",
+                search_path,
+                class: "btn btn-outline-secondary w-100" %>
+            </div>
+
+          </div>
+
+          <!-- 🔥 キーワード入力（下段） -->
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label small text-muted">キーワード</label>
+              <%= f.text_field :word,
+                value: params[:word],
+                placeholder: "カフェ・静か・作業など",
+                class: "form-control" %>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small text-muted">地域</label>
+              <%= f.text_field :region,
+                value: params[:region],
+                placeholder: "渋谷・新宿など",
+                class: "form-control" %>
+            </div>
+
+          </div>
+
+        </div>
+
+      <% end %>
+
+    </div>
+  </div>
+<% end %>
+
 <div class="container mt-4 mb-5">
 
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -33,7 +120,7 @@
               </p>
 
               <!-- バッジ -->
-              <div class="mb-3">
+              <div class="mb-3 d-flex align-items-center gap-2 flex-wrap">
                 <% if spot.wifi %>
                   <span class="badge bg-success me-2 px-3 py-2">WiFi</span>
                 <% end %>
@@ -45,16 +132,37 @@
                 <span class="badge bg-secondary px-3 py-2">
                   💬 <%= spot.comments.count %>
                 </span>
+
+                <!-- ❤️ いいね -->
+                <% if spot.favorites.count > 0 %>
+                  <span class="badge bg-danger-subtle text-danger border px-3 py-2">
+                    ❤️ <%= spot.favorites.count %>
+                  </span>
+                <% else %>
+                  <span class="badge bg-light text-muted border px-3 py-2">
+                    🤍 0
+                  </span>
+                <% end %>   
               </div>
 
               <!-- 下部情報 -->
-              <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                <small class="text-muted">
-                  レビュー <%= spot.reviews.count %>件
-                </small>
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
 
-                <%= link_to "詳細を見る", spot_path(spot), class: "btn btn-outline-primary btn-sm" %>
+              <!-- 左：レビュー -->
+              <small class="text-muted">
+                レビュー <%= spot.reviews.count %>件
+              </small>
+
+              <div class="d-flex align-items-center gap-2">
+
+                <!-- 詳細 -->
+                <%= link_to "詳細",
+                  spot_path(spot),
+                  class: "btn btn-outline-primary btn-sm" %>
+
               </div>
+
+            </div>
 
             </div>
           </div>
@@ -74,3 +182,4 @@
 <div class="d-flex justify-content-center mt-4">
   <%= paginate @spots %>
 </div>
+
