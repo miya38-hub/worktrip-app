@@ -28,6 +28,18 @@
                 class: "form-select" %>
             </div>
 
+            <div class="col-md-3">
+              <label class="form-label small text-muted">並び替え</label>
+              <%= f.select :sort,
+                options_for_select([
+                  ["新着順", ""],
+                  ["いいね順", "favorites"],
+                  ["コメント順", "comments"]
+                ], params[:sort]),
+                {},
+                class: "form-select" %>
+            </div>
+
             <!-- チェックボックス -->
             <div class="col-md-4">
               <label class="form-label small text-muted">設備</label>
@@ -50,7 +62,7 @@
                 class: "btn btn-primary w-100 fw-bold shadow-sm" %>
 
               <%= link_to "リセット",
-                search_path,
+                spots_path,
                 class: "btn btn-outline-secondary w-100" %>
             </div>
 
@@ -130,13 +142,13 @@
                 <% end %>
 
                 <span class="badge bg-secondary px-3 py-2">
-                  💬 <%= spot.comments.count %>
+                  💬 <%= spot.comments_count || 0 %>
                 </span>
 
                 <!-- ❤️ いいね -->
                 <% if spot.favorites.count > 0 %>
                   <span class="badge bg-danger-subtle text-danger border px-3 py-2">
-                    ❤️ <%= spot.favorites.count %>
+                    ❤️ <%= spot.favorites_count || 0 %>
                   </span>
                 <% else %>
                   <span class="badge bg-light text-muted border px-3 py-2">

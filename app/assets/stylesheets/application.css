@@ -2,3 +2,29 @@
   width: 24px !important;
   height: 24px !important;
 }
+
+.homes-top {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.5),
+      rgba(255,255,255,0.5)
+    ),
+    url("top_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.homes-about {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.5),
+      rgba(255,255,255,0.5)
+    ),
+    url("about_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}

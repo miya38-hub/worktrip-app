@@ -4,11 +4,17 @@ class Public::SpotsController < Public::ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.includes(:comments, :reviews)
+    @spots = Spot.left_joins(:favorites, :comments)
+      .select("
+        spots.*,
+        COUNT(DISTINCT favorites.id) AS favorites_count,
+        COUNT(DISTINCT comments.id) AS comments_count
+      ")
+      .group("spots.id")
 
     # 🔍 キーワード検索
     if params[:word].present?
-      @spots = @spots.where("name LIKE ?", "%#{params[:word]}%")
+      @spots = @spots.where("spots.name LIKE ?", "%#{params[:word]}%")
     end
 
     # 🔍 カテゴリ
@@ -18,7 +24,7 @@ class Public::SpotsController < Public::ApplicationController
 
     # 🔍 地域
     if params[:region].present?
-      @spots = @spots.where("address LIKE ?", "%#{params[:region]}%")
+      @spots = @spots.where("spots.address LIKE ?", "%#{params[:region]}%")
     end
 
     # 🔍 WiFi
@@ -31,7 +37,17 @@ class Public::SpotsController < Public::ApplicationController
       @spots = @spots.where(power_supply: params[:power_supply] == "1")
     end
 
-    @spots = @spots.order(created_at: :desc).page(params[:page]).per(6)
+    # 🔥 並び替え（ここ追加）
+    case params[:sort]
+    when "favorites"
+      @spots = @spots.order("favorites_count DESC")
+    when "comments"
+      @spots = @spots.order("comments_count DESC")
+    else
+      @spots = @spots.order(created_at: :desc)
+    end
+
+    @spots = @spots.page(params[:page]).per(6)
   end
 
   def show
