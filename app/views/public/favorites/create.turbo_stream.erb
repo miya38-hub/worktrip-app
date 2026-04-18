@@ -1,0 +1,7 @@
+<turbo-stream target="favorite_<%= @spot.id %>" action="update">
+  <template>
+    <%= render partial: "public/favorites/favorite",
+               formats: [:html],
+               locals: { spot: @spot, favorited: @favorited } %>
+  </template>
+</turbo-stream>

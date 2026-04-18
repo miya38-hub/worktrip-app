@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center gap-2">
+
+  <% if favorited %>
+    <%= button_to spot_favorite_path(spot),
+      method: :delete,
+      class: "btn btn-danger btn-sm rounded-pill px-3" do %>
+      ❤️ <%= spot.favorites.count %>
+    <% end %>
+  <% else %>
+    <%= button_to spot_favorite_path(spot),
+      method: :post,
+      class: "btn btn-outline-danger btn-sm rounded-pill px-3" do %>
+      🤍 <%= spot.favorites.count %>
+    <% end %>
+  <% end %>
+
+</div>

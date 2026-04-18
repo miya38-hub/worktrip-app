@@ -5,37 +5,30 @@
     <div class="card-body p-4">
 
       <!-- タイトル・住所・編集 -->
-      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        
+        <!-- 左：タイトル -->
         <div>
-          <h2 class="mb-1 fw-bold"><%= @spot.name %></h2>
+          <h2 class="mb-1 fw-bold d-flex align-items-center gap-2">
+            <%= @spot.name %>
+
+            <turbo-frame id="favorite_<%= @spot.id %>">
+              <%= render partial: "public/favorites/favorite",
+                        locals: { spot: @spot, favorited: @favorited } %>
+            </turbo-frame>
+          </h2>
+
           <p class="text-muted mb-0">
             <i class="fa-solid fa-location-dot me-1"></i>
             <%= @spot.address %>
           </p>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <!-- 右：編集 -->
+        <% if @spot.user == current_user %>
+          <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary" %>
+        <% end %>
 
-          <% if current_user.favorited?(@spot) %>
-            <%= button_to spot_favorite_path(@spot),
-              method: :delete,
-              class: "btn btn-danger btn-sm rounded-pill px-3" do %>
-              ❤️ <%= @spot.favorites.count %>
-            <% end %>
-          <% else %>
-            <%= button_to spot_favorite_path(@spot),
-              method: :post,
-              class: "btn btn-outline-danger btn-sm rounded-pill px-3" do %>
-              🤍 <%= @spot.favorites.count %>
-            <% end %>
-          <% end %>
-
-          <% if @spot.user == current_user %>
-            <%= link_to "編集", edit_spot_path(@spot), class: "btn btn-outline-primary" %>
-          <% end %>
-
-        </div>
-        
       </div>
 
       <!-- 評価 -->
@@ -232,31 +225,11 @@
     </div>
 
     <% if @comments.any? %>
+    <div id="comments">
       <% @comments.each do |comment| %>
-        <div class="card mb-3 shadow-sm border-0">
-          <div class="card-body">
-
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <div>
-                <strong class="text-primary"><%= comment.user.name %></strong><br>
-                <small class="text-muted">
-                  <%= comment.created_at.strftime("%Y/%m/%d") %>
-                </small>
-              </div>
-
-              <% if comment.user == current_user %>
-                <%= link_to "削除",
-                  spot_comment_path(@spot, comment),
-                  data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
-                  class: "btn btn-outline-danger btn-sm" %>
-              <% end %>
-            </div>
-
-            <p class="mb-0 text-secondary"><%= comment.comment %></p>
-
-          </div>
-        </div>
+        <%= render "public/comments/comment", comment: comment %>
       <% end %>
+    </div>
     <% else %>
       <div class="card border-0 bg-light mb-4">
         <div class="card-body text-center text-muted py-4">
@@ -271,7 +244,7 @@
     <div class="card-body p-4">
       <h5 class="fw-bold mb-3">コメントする</h5>
 
-      <%= form_with model: [@spot, @comment], local: true do |f| %>
+      <%= form_with model: [@spot, @comment] do |f| %>
         <% if @comment.errors.any? %>
           <div class="alert alert-danger">
             <ul class="mb-0">

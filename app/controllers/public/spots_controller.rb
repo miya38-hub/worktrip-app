@@ -56,6 +56,7 @@ class Public::SpotsController < Public::ApplicationController
 
     @comments = @spot.comments.includes(:user).order(created_at: :desc)
     @comment = Comment.new
+    @favorited = Favorite.exists?(user_id: current_user.id, spot_id: @spot.id)
   end
 
   def new

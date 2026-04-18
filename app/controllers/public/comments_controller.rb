@@ -6,10 +6,13 @@ class Public::CommentsController < Public::ApplicationController
 
   def create
     @comment = current_user.comments.new(comment_params)
-    @comment.spot_id = @spot.id
+    @comment.spot = @spot
 
     if @comment.save
-      redirect_to spot_path(@spot), notice: "コメントを投稿しました"
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to spot_path(@spot) }
+      end
     else
       @reviews = @spot.reviews.includes(:user).order(created_at: :desc)
       @comments = @spot.comments.includes(:user).order(created_at: :desc)
@@ -29,7 +32,10 @@ class Public::CommentsController < Public::ApplicationController
 
   def destroy
     @comment.destroy
-    redirect_to spot_path(@spot), notice: "コメントを削除しました"
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to spot_path(@spot) }
+    end
   end
 
   private

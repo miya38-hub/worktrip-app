@@ -1,0 +1,23 @@
+<div id="comment_<%= comment.id %>" class="card mb-3 shadow-sm border-0">
+  <div class="card-body">
+
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <div>
+        <strong class="text-primary"><%= comment.user.name %></strong><br>
+        <small class="text-muted">
+          <%= comment.created_at.strftime("%Y/%m/%d") %>
+        </small>
+      </div>
+
+      <% if comment.user == current_user %>
+        <%= link_to "削除",
+          spot_comment_path(comment.spot, comment),
+          data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+          class: "btn btn-outline-danger btn-sm" %>
+      <% end %>
+    </div>
+
+    <p class="mb-0 text-secondary"><%= comment.comment %></p>
+
+  </div>
+</div>

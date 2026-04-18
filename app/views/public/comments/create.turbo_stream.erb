@@ -1,0 +1,7 @@
+<turbo-stream action="prepend" target="comments">
+  <template>
+    <%= render partial: "public/comments/comment",
+               formats: [:html],
+               locals: { comment: @comment } %>
+  </template>
+</turbo-stream>
