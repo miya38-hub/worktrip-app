@@ -2,7 +2,37 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-import "@hotwired/turbo-rails"
+function loadMap() {
+  const mapElement = document.getElementById("map");
+  if (!mapElement) return;
+
+  const address = mapElement.dataset.address;
+  if (!address) return;
+
+  const geocoder = new google.maps.Geocoder();
+
+  geocoder.geocode({ address: address }, function (results, status) {
+    if (status === "OK") {
+      const map = new google.maps.Map(mapElement, {
+        zoom: 15,
+        center: results[0].geometry.location,
+      });
+
+      new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location,
+      });
+    } else {
+      console.log("Geocode失敗:", status);
+    }
+  });
+}
+
+document.addEventListener("turbo:load", function () {
+  if (window.google && window.google.maps) {
+    loadMap();
+  }
+});
 
 document.addEventListener("turbo:load", function() {
 

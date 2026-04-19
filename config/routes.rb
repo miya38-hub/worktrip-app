@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :public do
+    get "analytics/index"
+  end
+  get "maps/show"
   resources :passwords, param: :token
   
   scope module: :public do
@@ -6,6 +10,8 @@ Rails.application.routes.draw do
     get "dashboard", to: "homes#dashboard"
     get "/about", to: "homes#about"
     get "/search", to: "searches#search"
+    get "map", to: "maps#show"
+    get "analytics", to: "analytics#index"
 
     resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do

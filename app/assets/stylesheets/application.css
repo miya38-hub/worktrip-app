@@ -28,3 +28,12 @@
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
+.chart-card {
+  width: 550px;
+  padding: 20px;
+}
+
+.chart-canvas {
+  height: 350px !important;  /* ← ここが最重要 */
+}

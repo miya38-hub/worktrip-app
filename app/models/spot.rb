@@ -16,6 +16,9 @@ class Spot < ApplicationRecord
 
   validate :name_or_address_unique
 
+  geocoded_by :address
+  after_validation :geocode
+
   def name_or_address_unique
     return if name.blank? || address.blank?
 
@@ -32,5 +35,13 @@ class Spot < ApplicationRecord
 
   def category_i18n
     I18n.t("enums.spot.category.#{category}")
+  end
+
+  def favorites_count
+    favorites.count
+  end
+
+  def weekly_favorites_count
+    favorites.where(created_at: 1.week.ago..Time.current).count
   end
 end
