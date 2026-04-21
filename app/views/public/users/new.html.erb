@@ -22,7 +22,7 @@
           <% end %>
 
           <!-- フォーム -->
-          <%= form_with model: @user, data: { turbo: false } do |f| %>
+          <%= form_with model: @user, local: true, data: { turbo: false } do |f| %>
 
             <div class="mb-3">
               <%= f.label :name, "名前", class: "form-label small text-muted" %>
