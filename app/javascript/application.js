@@ -1,5 +1,5 @@
 import "@hotwired/turbo-rails"
-import "controllers/index"
+import "controllers"
 
 console.log("🔥 application.js 読み込み確認");
 
