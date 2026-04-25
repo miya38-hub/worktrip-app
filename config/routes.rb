@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
         get :unsubscribe
-        patch :withdraw
+        patch :withdraw 
       end
     end
     
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
 
     resources :spots do
-      resources :reviews, only: [:create, :edit, :update, :destroy]
+      resources :reviews, only: [:new, :create, :edit, :update, :destroy]
       resources :comments, only: [:create, :update, :destroy]
       resource :favorite, only: [:create, :destroy]
     end
@@ -36,13 +36,14 @@ Rails.application.routes.draw do
     post "login", to: "sessions#create"
     delete "logout", to: "sessions#destroy"
 
+    resources :reviews, only: [:index]
     resources :users, only: [:index, :show] do
       member do
         patch :withdraw
       end
     end
 
-    resources :spots, only: [:index, :show, :edit, :update, :destroy] do
+    resources :spots, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :reviews, only: [:index, :edit, :update, :destroy]
     end
   end

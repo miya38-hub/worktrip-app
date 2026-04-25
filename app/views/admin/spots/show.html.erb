@@ -10,14 +10,16 @@
       <div class="mb-3"><strong>スポット名:</strong> <%= @spot.name %></div>
       <div class="mb-3"><strong>投稿者:</strong> <%= @spot.user.name %></div>
       <div class="mb-3"><strong>住所:</strong> <%= @spot.address %></div>
-      <div class="mb-3"><strong>カテゴリ:</strong> <%= @spot.category %></div>
+      <div class="mb-3">
+        <strong>郵便番号:</strong>
+        <%= @spot.postal_code.present? ? "〒#{@spot.postal_code}" : "未入力" %>
+      </div>
       <div class="mb-3"><strong>WiFi:</strong> <%= @spot.wifi ? "あり" : "なし" %></div>
       <div class="mb-3"><strong>電源:</strong> <%= @spot.power_supply ? "あり" : "なし" %></div>
       <div class="mb-3"><strong>説明:</strong> <%= @spot.description.presence || "未入力" %></div>
 
       <div class="d-flex gap-2 mt-4">
         <%= link_to "編集", edit_admin_spot_path(@spot), class: "btn btn-outline-primary" %>
-        <%= link_to "レビュー一覧", admin_spot_reviews_path(@spot), class: "btn btn-outline-info" %>
         <%= button_to "削除",
           admin_spot_path(@spot),
           method: :delete,

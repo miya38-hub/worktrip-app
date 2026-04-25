@@ -1,0 +1,79 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow">
+        <div class="card-body">
+
+          <h2 class="mb-4 text-center">レビュー投稿</h2>
+
+          <%= form_with model: [@spot, @review], data: { turbo: false } do |f| %>
+
+            <!-- エラー -->
+            <% if @review.errors.any? %>
+              <div class="alert alert-danger">
+                <ul class="mb-0">
+                  <% @review.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <!-- ⭐ 総合 -->
+            <div class="mb-3">
+              <label class="form-label">総合評価</label>
+              <div id="star-rating"></div>
+              <%= hidden_field_tag "review[rating]", nil, id: "rating-input" %>
+            </div>
+
+            <!-- WiFi -->
+            <div class="mb-3">
+              <label>WiFi</label>
+              <div id="star-wifi"></div>
+              <%= hidden_field_tag "review[wifi_rating]", nil, id: "wifi-input" %>
+            </div>
+
+            <!-- 電源 -->
+            <div class="mb-3">
+              <label>電源</label>
+              <div id="star-power"></div>
+              <%= hidden_field_tag "review[power_rating]", nil, id: "power-input" %>
+            </div>
+
+            <!-- 静かさ -->
+            <div class="mb-3">
+              <label>静かさ</label>
+              <div id="star-quiet"></div>
+              <%= hidden_field_tag "review[quietness_rating]", nil, id: "quiet-input" %>
+            </div>
+
+            <!-- 作業しやすさ -->
+            <div class="mb-3">
+              <label>作業しやすさ</label>
+              <div id="star-work"></div>
+              <%= hidden_field_tag "review[workability_rating]", nil, id: "work-input" %>
+            </div>
+
+            <!-- コメント -->
+            <div class="mb-3">
+              <%= f.label :comment, "コメント", class: "form-label" %>
+              <%= f.text_area :comment,
+                class: "form-control",
+                rows: 3,
+                placeholder: "実際に使ってみた感想..." %>
+            </div>
+
+            <!-- ボタン -->
+            <div class="text-center">
+              <%= f.submit "投稿する", class: "btn btn-primary px-5" %>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -29,6 +29,123 @@
   min-height: 100vh;
 }
 
+.homes-dashboard {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.spots-index {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.spots-show {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.spots-new {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.users-index {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.users-show {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.analytics-index {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("other_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.users-new {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("auth_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+.sessions-new {
+  background-image: linear-gradient(
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.3)
+    ),
+    url("auth_bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
 .chart-card {
   width: 550px;
   padding: 20px;
@@ -36,4 +153,40 @@
 
 .chart-canvas {
   height: 350px !important;  /* ← ここが最重要 */
+}
+
+/* ⭐がボタンに被らないように */
+#star-rating,
+#star-wifi,
+#star-power,
+#star-quiet,
+#star-work {
+  display: inline-block;
+  height: auto;
+}
+
+/* ボタンを前面に出す */
+.text-center {
+  position: relative;
+  z-index: 9999;
+}
+
+input[type="submit"] {
+  position: relative;
+  z-index: 10000;
+}
+
+.navbar-brand {
+  padding: 0;
+}
+
+.navbar-brand img {
+  height: 50px;
+  display: block;
+  filter: brightness(0) invert(1);
+  transition: 0.2s;
+}
+
+.navbar-brand img:hover {
+  transform: scale(1.05);
 }

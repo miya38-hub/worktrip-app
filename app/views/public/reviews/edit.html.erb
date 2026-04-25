@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">レビュー編集</h2>
+
+  <%= form_with model: [@spot, @review], data: { turbo: false } do |f| %>
+
+    <%= hidden_field_tag "review[rating]", @review.rating, id: "rating-input" %>
+    <%= hidden_field_tag "review[wifi_rating]", @review.wifi_rating, id: "wifi-input" %>
+    <%= hidden_field_tag "review[power_rating]", @review.power_rating, id: "power-input" %>
+    <%= hidden_field_tag "review[quietness_rating]", @review.quietness_rating, id: "quiet-input" %>
+    <%= hidden_field_tag "review[workability_rating]", @review.workability_rating, id: "work-input" %>
+
+    <div class="mb-3">
+      <label>総合評価</label>
+      <div id="star-rating"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>WiFi</label>
+      <div id="star-wifi"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>電源</label>
+      <div id="star-power"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>静かさ</label>
+      <div id="star-quiet"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>作業しやすさ</label>
+      <div id="star-work"></div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.text_area :comment, class: "form-control", rows: 3 %>
+    </div>
+
+    <div class="text-center">
+      <%= f.submit "更新する", class: "btn btn-primary" %>
+    </div>
+
+  <% end %>
+</div>

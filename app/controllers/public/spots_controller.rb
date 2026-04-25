@@ -51,6 +51,8 @@ class Public::SpotsController < Public::ApplicationController
   end
 
   def show
+    @spot = Spot.find(params[:id])
+
     @user = current_user
     @reviews = @spot.reviews.includes(:user).order(created_at: :desc)
 
@@ -65,8 +67,12 @@ class Public::SpotsController < Public::ApplicationController
 
   def create
     @spot = current_user.spots.build(spot_params)
+
     if @spot.save
-      if params[:review]
+
+      # 🔥 reviewが存在＆評価が入っているときだけ保存
+      if params[:review].present? && params[:review][:rating].present?
+
         review = current_user.reviews.new(
           spot: @spot,
           rating: params[:review][:rating],
@@ -77,20 +83,20 @@ class Public::SpotsController < Public::ApplicationController
           comment: params[:review][:comment]
         )
 
-        if review.save
-          Rails.logger.debug "レビュー保存成功"
-        else
+        unless review.save
           Rails.logger.debug review.errors.full_messages
         end
       end
 
       redirect_to @spot, notice: "投稿しました"
+
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    @spot = Spot.find(params[:id])
   end
 
   def update
@@ -119,6 +125,6 @@ class Public::SpotsController < Public::ApplicationController
   end
 
   def spot_params
-    params.require(:spot).permit(:name, :category, :address, :wifi, :power_supply, :description)
+    params.require(:spot).permit(:name, :category, :address, :postal_code, :wifi, :power_supply, :description)
   end
 end

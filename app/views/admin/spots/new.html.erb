@@ -1,0 +1,97 @@
+<div class="container mt-4">
+
+  <h2 class="mb-4">スポット登録</h2>
+
+  <%= form_with model: [:admin, @spot], local: true do |f| %>
+
+    <% if @spot.errors.any? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @spot.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- スポット -->
+    <div class="mb-3">
+      <%= f.label :name, "スポット名" %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :category, "カテゴリ" %>
+      <%= f.select :category,
+        Spot.categories.keys.map { |k| [k, k] },
+        {},
+        class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :address, "住所" %>
+      <%= f.text_field :address, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.check_box :wifi %>
+      <%= f.label :wifi, "WiFiあり" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.check_box :power_supply %>
+      <%= f.label :power_supply, "電源あり" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :description, "説明" %>
+      <%= f.text_area :description, class: "form-control" %>
+    </div>
+
+    <!-- 🔥 レビュー追加 -->
+    <hr class="my-4">
+    <h4>初回レビュー（任意）</h4>
+
+    <!-- hidden -->
+    <%= hidden_field_tag "review[rating]", nil, id: "rating-input" %>
+    <%= hidden_field_tag "review[wifi_rating]", nil, id: "wifi-input" %>
+    <%= hidden_field_tag "review[power_rating]", nil, id: "power-input" %>
+    <%= hidden_field_tag "review[quietness_rating]", nil, id: "quiet-input" %>
+    <%= hidden_field_tag "review[workability_rating]", nil, id: "work-input" %>
+
+    <div class="mb-3">
+      <label>総合評価</label>
+      <div id="star-rating"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>WiFi</label>
+      <div id="star-wifi"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>電源</label>
+      <div id="star-power"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>静かさ</label>
+      <div id="star-quiet"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>作業しやすさ</label>
+      <div id="star-work"></div>
+    </div>
+
+    <div class="mb-3">
+      <label>コメント</label>
+      <%= text_area_tag "review[comment]", nil, class: "form-control" %>
+    </div>
+
+    <!-- ボタン -->
+    <%= f.submit "登録", class: "btn btn-primary" %>
+
+  <% end %>
+
+</div>

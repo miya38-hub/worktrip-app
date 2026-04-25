@@ -6,12 +6,23 @@ class Admin::SpotsController < Admin::ApplicationController
     @spots = Spot.includes(:user, :reviews, :comments).order(created_at: :desc).page(params[:page]).per(10)
   end
 
+  def create
+    @spot = Spot.new(spot_params)
+
+    if @spot.save
+      redirect_to admin_spots_path, notice: "スポットを登録しました"
+    else
+      render :new
+    end
+  end
+
   def show
     @reviews = @spot.reviews.includes(:user)
     @comments = @spot.comments.includes(:user)
   end
 
   def edit
+    @spot = Spot.find(params[:id])
   end
 
   def update

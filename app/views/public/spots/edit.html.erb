@@ -29,13 +29,26 @@
             <!-- カテゴリ -->
             <div class="mb-3">
               <%= f.label :category, "カテゴリ", class: "form-label" %>
-              <%= f.select :category, Spot.categories.keys, {}, class: "form-select" %>
+              <%= f.select :category,
+                Spot.categories.keys.map { |k| [I18n.t("enums.spot.category.#{k}"), k] },
+                {},
+                class: "form-select" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :postal_code, "郵便番号", class: "form-label" %>
+              <%= f.text_field :postal_code,
+                  class: "form-control",
+                  id: "postal_code",
+                  placeholder: "例：1000001" %>
             </div>
 
             <!-- 住所 -->
             <div class="mb-3">
               <%= f.label :address, "住所", class: "form-label" %>
-              <%= f.text_field :address, class: "form-control" %>
+              <%= f.text_field :address,
+                  class: "form-control",
+                  id: "address" %>
             </div>
 
             <!-- 設備 -->

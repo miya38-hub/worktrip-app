@@ -30,3 +30,7 @@ ja:
       confirmation: "が一致しません"
       too_short: "は%{count}文字以上で入力してください"
       inclusion: "を選択してください"
+      
+  time:
+    formats:
+      short: "%Y/%m/%d %H:%M"

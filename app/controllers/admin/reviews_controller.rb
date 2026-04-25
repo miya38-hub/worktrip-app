@@ -1,11 +1,12 @@
 class Admin::ReviewsController < Admin::ApplicationController
   before_action :require_admin
-  before_action :set_spot
+  before_action :set_spot, only: [:edit, :update, :destroy]
   before_action :set_review, only: [:edit, :update, :destroy]
-  
 
   def index
-    @reviews = @spot.reviews.includes(:user).order(created_at: :desc).page(params[:page]).per(10)
+    @reviews = Review.includes(:user, :spot)
+                 .order(created_at: :desc)
+                 .page(params[:page]).per(10)
   end
 
   def edit

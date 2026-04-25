@@ -1,80 +1,73 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails"
 import "controllers"
 
-function loadMap() {
+console.log("🔥 application.js 読み込み確認");
+
+// ========================
+// Google Map
+// ========================
+function loadMapByLatLng() {
   const mapElement = document.getElementById("map");
   if (!mapElement) return;
 
-  const address = mapElement.dataset.address;
-  if (!address) return;
+  const lat = parseFloat(mapElement.dataset.lat);
+  const lng = parseFloat(mapElement.dataset.lng);
 
-  const geocoder = new google.maps.Geocoder();
+  if (!lat || !lng) return;
 
-  geocoder.geocode({ address: address }, function (results, status) {
-    if (status === "OK") {
-      const map = new google.maps.Map(mapElement, {
-        zoom: 15,
-        center: results[0].geometry.location,
-      });
+  const position = { lat, lng };
 
-      new google.maps.Marker({
-        map: map,
-        position: results[0].geometry.location,
-      });
-    } else {
-      console.log("Geocode失敗:", status);
-    }
+  const map = new google.maps.Map(mapElement, {
+    zoom: 15,
+    center: position,
+  });
+
+  new google.maps.Marker({
+    position: position,
+    map: map,
   });
 }
 
 document.addEventListener("turbo:load", function () {
   if (window.google && window.google.maps) {
-    loadMap();
+    loadMapByLatLng();
   }
 });
 
-document.addEventListener("turbo:load", function() {
+function initRaty() {
+  if (typeof $ === "undefined") return;
+  if (typeof $.fn.raty === "undefined") return;
 
-  $('#star-rating').raty({
-    score: 0,
-    click: function(score) {
-      $('#rating-input').val(score);
-    },
-    starOn: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-on.png",
-    starOff: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-off.png"
-  });
+  const setup = (selector, inputId) => {
+    const el = $(selector);
+    if (!el.length) return;
 
-  $('#star-wifi').raty({
-    click: function(score) {
-      $('#wifi-input').val(score);
-    },
-    starOn: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-on.png",
-    starOff: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-off.png"
-  });
+    // 🔥 ここ重要：毎回初期化リセット
+    el.empty();
 
-  $('#star-power').raty({
-    click: function(score) {
-      $('#power-input').val(score);
-    },
-    starOn: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-on.png",
-    starOff: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-off.png"
-  });
+    el.raty({
+      starType: 'i',
+      starOn: 'fa fa-star text-warning',
+      starOff: 'fa fa-star text-secondary',
+      score: 0,
+      click: function(score) {
+        $(inputId).val(score);
+        console.log("⭐ set:", inputId, score);
+      }
+    });
+  };
 
-  $('#star-quiet').raty({
-    click: function(score) {
-      $('#quiet-input').val(score);
-    },
-    starOn: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-on.png",
-    starOff: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-off.png"
-  });
+  setup('#star-rating', '#rating-input');
+  setup('#star-wifi', '#wifi-input');
+  setup('#star-power', '#power-input');
+  setup('#star-quiet', '#quiet-input');
+  setup('#star-work', '#work-input');
+}
 
-  $('#star-work').raty({
-    click: function(score) {
-      $('#work-input').val(score);
-    },
-    starOn: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-on.png",
-    starOff: "https://cdnjs.cloudflare.com/ajax/libs/raty/3.1.1/images/star-off.png"
-  });
-
+// ========================
+// Turbo読み込み
+// ========================
+document.addEventListener("turbo:load", function () {
+  loadMapByLatLng();
+  initRaty();
 });

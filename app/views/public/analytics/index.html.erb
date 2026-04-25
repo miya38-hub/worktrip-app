@@ -1,6 +1,24 @@
 <div class="container py-4">
 
-  <h1 class="mb-4 fw-bold">分析ダッシュボード</h1>
+  <!-- タイトル -->
+  <h1 class="mb-4 fw-bold">データ管理</h1>
+
+  <!-- KPI -->
+  <div class="row mb-4 g-3">
+    <div class="col-md-6">
+      <div class="card shadow-sm text-center p-3">
+        <h6 class="text-muted mb-1">総いいね数</h6>
+        <h2 class="fw-bold text-danger"><%= @favorite_data.sum %></h2>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm text-center p-3">
+        <h6 class="text-muted mb-1">総投稿数</h6>
+        <h2 class="fw-bold text-primary"><%= @spot_data.sum %></h2>
+      </div>
+    </div>
+  </div>
 
   <div class="row g-4">
 
@@ -22,16 +40,26 @@
         <div class="card-body">
           <h5 class="card-title mb-3">人気スポット</h5>
 
-          <ul class="list-group list-group-flush">
-            <% @popular_spots.each_with_index do |spot, i| %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span><%= i + 1 %>. <%= spot.name %></span>
-                <span class="badge bg-primary rounded-pill">
-                  <%= spot.favorites.count %>
-                </span>
-              </li>
-            <% end %>
-          </ul>
+          <% if @popular_spots.present? %>
+            <ul class="list-group list-group-flush">
+              <% @popular_spots.each_with_index do |spot, i| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                  <div>
+                    <span class="fw-bold me-2 text-primary">#<%= i + 1 %></span>
+                    <%= spot.name %>
+                  </div>
+
+                  <span class="badge bg-primary rounded-pill px-3">
+                    ❤️ <%= spot.try(:favorites_count) || spot.favorites.count %>
+                  </span>
+
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted">データがまだありません</p>
+          <% end %>
 
         </div>
       </div>

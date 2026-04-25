@@ -2,6 +2,7 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :spot
 
+  validates :user_id, uniqueness: { scope: :spot_id }
   validates :rating, presence: true
 
   validates :rating, :wifi_rating, :power_rating,

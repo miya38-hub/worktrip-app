@@ -18,10 +18,11 @@
             </turbo-frame>
           </h2>
 
-          <p class="text-muted mb-0">
-            <i class="fa-solid fa-location-dot me-1"></i>
-            <%= @spot.address %>
-          </p>
+         <p class="text-muted mb-0">
+          <i class="fa-solid fa-location-dot me-1"></i>
+          <%= @spot.postal_code.present? ? "〒#{@spot.postal_code} " : "" %>
+          <%= @spot.address %>
+        </p>
         </div>
 
         <!-- 右：編集 -->
@@ -95,7 +96,8 @@
         <h6 class="fw-bold mb-2">地図</h6>
 
         <div id="map"
-            data-address="<%= @spot.address %>"
+            data-lat="<%= @spot.latitude %>"
+            data-lng="<%= @spot.longitude %>"
             class="rounded"
             style="height: 300px; width: 100%;">
         </div>
@@ -219,10 +221,16 @@
             </small>
 
             <% if review.user == current_user %>
-              <%= link_to "削除",
-                spot_review_path(@spot, review),
-                data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
-                class: "btn btn-outline-danger btn-sm" %>
+              <div class="mt-2">
+                <%= link_to "編集",
+                  edit_spot_review_path(@spot, review),
+                  class: "btn btn-outline-primary btn-sm me-2" %>
+
+                <%= link_to "削除",
+                  spot_review_path(@spot, review),
+                  data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+                  class: "btn btn-outline-danger btn-sm" %>
+              </div>
             <% end %>
           </div>
         </div>
