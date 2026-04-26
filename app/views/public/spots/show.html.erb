@@ -251,14 +251,14 @@
       <span class="badge bg-light text-dark border"><%= @comments.count %>件</span>
     </div>
 
-    <% if @comments.any? %>
     <div id="comments">
       <% @comments.each do |comment| %>
         <%= render "public/comments/comment", comment: comment %>
       <% end %>
     </div>
-    <% else %>
-      <div class="card border-0 bg-light mb-4">
+
+    <% unless @comments.any? %>
+      <div id="no-comments" class="card border-0 bg-light mb-4">
         <div class="card-body text-center text-muted py-4">
           まだコメントはありません
         </div>

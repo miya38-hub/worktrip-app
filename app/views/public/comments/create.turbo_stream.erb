@@ -1,7 +1,5 @@
-<turbo-stream action="prepend" target="comments">
-  <template>
-    <%= render partial: "public/comments/comment",
-               formats: [:html],
-               locals: { comment: @comment } %>
-  </template>
-</turbo-stream>
+<%= turbo_stream.prepend "comments" do %>
+  <%= render "public/comments/comment", comment: @comment %>
+<% end %>
+
+<%= turbo_stream.remove "no-comments" %>
