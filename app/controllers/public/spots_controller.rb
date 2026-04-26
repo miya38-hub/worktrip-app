@@ -70,9 +70,8 @@ class Public::SpotsController < Public::ApplicationController
 
     if @spot.save
 
-      # 🔥 reviewが存在＆評価が入っているときだけ保存
+      # レビュー保存
       if params[:review].present? && params[:review][:rating].present?
-
         review = current_user.reviews.new(
           spot: @spot,
           rating: params[:review][:rating],
@@ -88,16 +87,17 @@ class Public::SpotsController < Public::ApplicationController
         end
       end
 
-      if @spot.save
-        @spot.geocode
-        @spot.save
+      # ← ここが今回追加する正しい位置
+      @spot.geocode
+      @spot.save
+
       redirect_to @spot, notice: "投稿しました"
 
     else
       render :new, status: :unprocessable_entity
     end
   end
-
+  
   def edit
     @spot = Spot.find(params[:id])
   end
