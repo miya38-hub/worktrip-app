@@ -88,6 +88,9 @@ class Public::SpotsController < Public::ApplicationController
         end
       end
 
+      if @spot.save
+        @spot.geocode
+        @spot.save
       redirect_to @spot, notice: "投稿しました"
 
     else
