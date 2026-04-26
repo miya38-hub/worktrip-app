@@ -47,8 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.bigint "spot_id"
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -91,17 +91,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
 
   create_table "spots", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "name"
-    t.integer "category"
+    t.string "name", null: false
+    t.integer "category", null: false
     t.string "address"
     t.float "latitude"
     t.float "longitude"
-    t.boolean "wifi"
-    t.boolean "power_supply"
+    t.boolean "wifi", default: false, null: false
+    t.boolean "power_supply", default: false, null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "postal_code"
+    t.index ["latitude"], name: "index_spots_on_latitude"
+    t.index ["longitude"], name: "index_spots_on_longitude"
     t.index ["user_id"], name: "index_spots_on_user_id"
   end
 
