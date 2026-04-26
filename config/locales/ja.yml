@@ -22,6 +22,9 @@ ja:
         coworking: "コワーキング"
         hotel: "ホテル"
         library: "図書館"
+        cafe: "カフェ"
+        family_restaurant: "ファミレス"
+        lounge: "ラウンジ"
 
   errors:
     messages:

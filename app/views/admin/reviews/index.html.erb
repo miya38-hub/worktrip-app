@@ -23,11 +23,11 @@
           <td><%= review.comment %></td>
           <td><%= l review.created_at, format: :short %></td>
           <td>
-            <%= link_to "削除",
-              admin_spot_review_path(review.spot, review),
-              method: :delete,
-              data: { confirm: "削除しますか？" },
-              class: "btn btn-danger btn-sm" %>
+          <%= button_to "削除",
+            admin_spot_review_path(review.spot, review),
+            method: :delete,
+            data: { turbo_confirm: "削除しますか？" },
+            class: "btn btn-danger btn-sm" %>
           </td>
         </tr>
       <% end %>

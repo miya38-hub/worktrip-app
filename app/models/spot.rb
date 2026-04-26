@@ -7,7 +7,10 @@ class Spot < ApplicationRecord
   enum :category, {
     coworking: 0,
     hotel: 1,
-    library: 2
+    library: 2,
+    cafe: 3,
+    family_restaurant: 4,
+    lounge: 5
   }
 
   validates :name, presence: true

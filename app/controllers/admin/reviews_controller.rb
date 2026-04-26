@@ -22,7 +22,7 @@ class Admin::ReviewsController < Admin::ApplicationController
 
   def destroy
     @review.destroy
-    redirect_to admin_spot_reviews_path(@spot), notice: "レビューを削除しました"
+    redirect_to admin_reviews_path, notice: "レビューを削除しました"
   end
 
   private

@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h2 class="mb-4">コメント一覧</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>投稿者</th>
+        <th>スポット</th>
+        <th>内容</th>
+        <th>日時</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @comments.each do |comment| %>
+        <tr>
+          <td><%= comment.user.name %></td>
+          <td><%= link_to comment.spot.name, admin_spot_path(comment.spot) %></td>
+          <td><%= truncate(comment.comment, length: 50) %></td>
+          <td><%= l comment.created_at, format: :short %></td>
+          <td>
+          <%= button_to "削除",
+            admin_comment_path(comment),
+            method: :delete,
+            data: { turbo_confirm: "削除しますか？" },
+            class: "btn btn-danger btn-sm" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

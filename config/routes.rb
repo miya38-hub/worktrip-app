@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     delete "logout", to: "sessions#destroy"
 
     resources :reviews, only: [:index]
+    resources :comments, only: [:index, :destroy]
     resources :users, only: [:index, :show] do
       member do
         patch :withdraw
