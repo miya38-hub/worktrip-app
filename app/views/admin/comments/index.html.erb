@@ -1,8 +1,9 @@
 <div class="container mt-4">
-  <h2 class="mb-4">コメント一覧</h2>
 
-  <table class="table table-striped">
-    <thead>
+  <h2 class="mb-4 fw-bold">コメント一覧</h2>
+
+  <table class="table table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark">
       <tr>
         <th>投稿者</th>
         <th>スポット</th>
@@ -15,19 +16,41 @@
     <tbody>
       <% @comments.each do |comment| %>
         <tr>
-          <td><%= comment.user.name %></td>
-          <td><%= link_to comment.spot.name, admin_spot_path(comment.spot) %></td>
-          <td><%= truncate(comment.comment, length: 50) %></td>
-          <td><%= l comment.created_at, format: :short %></td>
-          <td>
-          <%= button_to "削除",
-            admin_comment_path(comment),
-            method: :delete,
-            data: { turbo_confirm: "削除しますか？" },
-            class: "btn btn-danger btn-sm" %>
+
+          <!-- 投稿者 -->
+          <td class="fw-bold">
+            <%= comment.user.name %>
           </td>
+
+          <!-- スポット -->
+          <td>
+            <%= link_to comment.spot.name,
+              admin_spot_path(comment.spot),
+              class: "text-decoration-none fw-bold text-dark" %>
+          </td>
+
+          <!-- コメント -->
+          <td class="text-muted small">
+            <%= truncate(comment.comment, length: 40) %>
+          </td>
+
+          <!-- 日時 -->
+          <td class="small text-muted">
+            <%= l comment.created_at, format: :short %>
+          </td>
+
+          <!-- 削除 -->
+          <td>
+            <%= button_to "削除",
+              admin_comment_path(comment),
+              method: :delete,
+              data: { turbo_confirm: "削除しますか？" },
+              class: "btn btn-danger btn-sm px-3" %>
+          </td>
+
         </tr>
       <% end %>
     </tbody>
   </table>
+
 </div>

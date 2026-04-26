@@ -1,57 +1,73 @@
 <div class="container mt-4">
 
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold mb-0">スポット一覧</h2>
-    <div class="d-flex gap-2">
+  <!-- タイトル -->
+  <h2 class="mb-4 fw-bold">スポット一覧</h2>
 
-      <%= link_to "ユーザー一覧へ",
-        admin_users_path,
-        class: "btn btn-outline-secondary" %>
-    </div>
-  </div>
+  <!-- テーブル -->
+  <table class="table table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>スポット名</th>
+        <th>投稿者</th>
+        <th>住所</th>
+        <th>レビュー</th>
+        <th>コメント</th>
+        <th></th>
+      </tr>
+    </thead>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-body">
+    <tbody>
+      <% @spots.each do |spot| %>
+        <tr>
 
-      <table class="table align-middle">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>スポット名</th>
-            <th>投稿者</th>
-            <th>住所</th>
-            <th>レビュー数</th>
-            <th>コメント数</th>
-            <th></th>
-          </tr>
-        </thead>
+          <!-- ID -->
+          <td class="text-muted small">
+            <%= spot.id %>
+          </td>
 
-        <tbody>
-          <% @spots.each do |spot| %>
-            <tr>
-              <td><%= spot.id %></td>
-              <td><%= spot.name %></td>
-              <td><%= spot.user.name %></td>
-              <td><%= spot.address %></td>
-              <td><%= spot.reviews.count %></td>
-              <td><%= spot.comments.count %></td>
+          <!-- スポット名 -->
+          <td class="fw-bold">
+            <%= link_to spot.name,
+              admin_spot_path(spot),
+              class: "text-decoration-none text-dark" %>
+          </td>
 
-              <td>
-                <%= link_to "詳細",
-                  admin_spot_path(spot),
-                  class: "btn btn-outline-primary btn-sm" %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+          <!-- 投稿者 -->
+          <td>
+            <%= spot.user.name %>
+          </td>
 
-      <!-- 🔥 ここに追加 -->
-      <div class="d-flex justify-content-center mt-4">
-        <%= paginate @spots %>
-      </div>
+          <!-- 住所 -->
+          <td class="text-muted small">
+            <%= truncate(spot.address, length: 40) %>
+          </td>
 
-    </div>
+          <!-- レビュー数 -->
+          <td class="fw-bold text-primary">
+            <%= spot.reviews.count %>
+          </td>
+
+          <!-- コメント数 -->
+          <td class="fw-bold text-secondary">
+            <%= spot.comments.count %>
+          </td>
+
+          <!-- 詳細 -->
+          <td>
+            <%= link_to "詳細",
+              admin_spot_path(spot),
+              class: "btn btn-outline-primary btn-sm px-3" %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- ページネーション -->
+  <div class="d-flex justify-content-center mt-3">
+    <%= paginate @spots %>
   </div>
 
 </div>

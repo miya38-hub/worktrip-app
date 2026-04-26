@@ -1,58 +1,70 @@
 <div class="container mt-4">
 
+  <!-- タイトル + ボタン -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold mb-0">ユーザー一覧</h2>
+
     <%= button_to "ログアウト",
-        admin_logout_path,
-        method: :delete,
-        class: "btn btn-outline-secondary btn-sm" %>
+      admin_logout_path,
+      method: :delete,
+      class: "btn btn-outline-secondary btn-sm" %>
   </div>
 
-  <div class="card shadow-sm border-0">
-    <div class="card-body">
+  <!-- テーブル -->
+  <table class="table table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>名前</th>
+        <th>メールアドレス</th>
+        <th>ステータス</th>
+        <th></th>
+      </tr>
+    </thead>
 
-      <table class="table align-middle">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>名前</th>
-            <th>メールアドレス</th>
-            <th>ステータス</th>
-            <th></th>
-          </tr>
-        </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
 
-        <tbody>
-          <% @users.each do |user| %>
-            <tr>
-              <td><%= user.id %></td>
-              <td><%= user.name %></td>
-              <td><%= user.email_address %></td>
+          <!-- ID -->
+          <td class="text-muted small">
+            <%= user.id %>
+          </td>
 
-              <td>
-                <% if user.is_active %>
-                  <span class="badge bg-success">有効</span>
-                <% else %>
-                  <span class="badge bg-secondary">退会済み</span>
-                <% end %>
-              </td>
+          <!-- 名前 -->
+          <td class="fw-bold">
+            <%= user.name %>
+          </td>
 
-              <td>
-                <%= link_to "詳細",
-                  admin_user_path(user),
-                  class: "btn btn-outline-primary btn-sm" %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+          <!-- メール -->
+          <td class="text-muted small">
+            <%= user.email_address %>
+          </td>
 
-      <!-- 🔥 ここに追加 -->
-      <div class="d-flex justify-content-center mt-4">
-        <%= paginate @users %>
-      </div>
+          <!-- ステータス -->
+          <td>
+            <% if user.is_active %>
+              <span class="badge bg-success">有効</span>
+            <% else %>
+              <span class="badge bg-secondary">退会済み</span>
+            <% end %>
+          </td>
 
-    </div>
+          <!-- 詳細 -->
+          <td>
+            <%= link_to "詳細",
+              admin_user_path(user),
+              class: "btn btn-outline-primary btn-sm px-3" %>
+          </td>
+
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- ページネーション -->
+  <div class="d-flex justify-content-center mt-3">
+    <%= paginate @users %>
   </div>
 
 </div>

@@ -1,13 +1,17 @@
 <div class="container mt-4">
 
-  <h2 class="mb-4">レビュー一覧</h2>
+  <h2 class="mb-4 fw-bold">レビュー一覧</h2>
 
-  <table class="table table-striped">
-    <thead>
+  <table class="table table-striped table-hover align-middle shadow-sm">
+    <thead class="table-dark">
       <tr>
         <th>ユーザー</th>
         <th>スポット</th>
-        <th>評価</th>
+        <th>総合</th>
+        <th>WiFi</th>
+        <th>電源</th>
+        <th>静かさ</th>
+        <th>作業</th>
         <th>コメント</th>
         <th>投稿日</th>
         <th></th>
@@ -17,25 +21,70 @@
     <tbody>
       <% @reviews.each do |review| %>
         <tr>
-          <td><%= review.user.name %></td>
-          <td><%= review.spot.name %></td>
-          <td>⭐ <%= review.rating %></td>
-          <td><%= review.comment %></td>
-          <td><%= l review.created_at, format: :short %></td>
-          <td>
-          <%= button_to "削除",
-            admin_spot_review_path(review.spot, review),
-            method: :delete,
-            data: { turbo_confirm: "削除しますか？" },
-            class: "btn btn-danger btn-sm" %>
+
+          <!-- ユーザー -->
+          <td class="fw-bold">
+            <%= review.user.name %>
           </td>
+
+          <!-- スポット -->
+          <td>
+            <%= link_to review.spot.name,
+              admin_spot_path(review.spot),
+              class: "text-decoration-none fw-bold text-dark" %>
+          </td>
+
+          <!-- 総合 -->
+          <td class="text-warning fw-bold">
+            <%= "⭐" * review.rating.to_i %>
+          </td>
+
+          <!-- WiFi -->
+          <td class="<%= 'text-danger fw-bold' if review.wifi_rating.to_i <= 2 && review.wifi_rating.present? %>">
+            <%= "⭐" * review.wifi_rating.to_i %>
+          </td>
+
+          <!-- 電源 -->
+          <td class="<%= 'text-danger fw-bold' if review.power_rating.to_i <= 2 && review.power_rating.present? %>">
+            <%= "⭐" * review.power_rating.to_i %>
+          </td>
+
+          <!-- 静かさ -->
+          <td>
+            <%= "⭐" * review.quietness_rating.to_i %>
+          </td>
+
+          <!-- 作業 -->
+          <td>
+            <%= "⭐" * review.workability_rating.to_i %>
+          </td>
+
+          <!-- コメント -->
+          <td class="text-muted small">
+            <%= truncate(review.comment.presence || "（コメントなし）", length: 40) %>
+          </td>
+
+          <!-- 日付 -->
+          <td class="small text-muted">
+            <%= l review.created_at, format: :short %>
+          </td>
+
+          <!-- 削除 -->
+          <td>
+            <%= button_to "削除",
+              admin_spot_review_path(review.spot, review),
+              method: :delete,
+              data: { turbo_confirm: "削除しますか？" },
+              class: "btn btn-danger btn-sm px-3" %>
+          </td>
+
         </tr>
       <% end %>
     </tbody>
   </table>
 
   <!-- ページネーション -->
-  <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center mt-3">
     <%= paginate @reviews %>
   </div>
 
