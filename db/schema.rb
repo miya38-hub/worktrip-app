@@ -57,8 +57,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "spot_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["spot_id"], name: "index_favorites_on_spot_id"
@@ -66,8 +66,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "spot_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "spot_id", null: false
     t.integer "rating"
     t.integer "wifi_rating"
     t.integer "power_rating"
