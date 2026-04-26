@@ -1,5 +1,4 @@
 <%= turbo_stream.prepend "comments" do %>
   <%= render "public/comments/comment", comment: @comment %>
 <% end %>
-
 <%= turbo_stream.remove "no-comments" %>
