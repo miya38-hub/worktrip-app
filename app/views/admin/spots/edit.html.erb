@@ -3,7 +3,7 @@
     <div class="card-body p-4">
       <h2 class="fw-bold mb-4">スポット編集</h2>
 
-      <%= form_with model: @spot, data: { turbo: false } do |f| %>
+      <%= form_with model: [:admin, @spot] do |f| %>
         <% if @spot.errors.any? %>
           <div class="alert alert-danger">
             <ul class="mb-0">
