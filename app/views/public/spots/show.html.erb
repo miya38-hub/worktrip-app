@@ -215,6 +215,18 @@
               <%= review.comment.presence || "コメントなし" %>
             </p>
 
+            <% score = review.score.to_f.round(2) %>
+
+            <div class="mt-2">
+              <% if score > 0.3 %>
+                <span class="badge bg-success">😊 ポジティブ <%= score %></span>
+              <% elsif score < -0.3 %>
+                <span class="badge bg-danger">😡 ネガティブ <%= score %></span>
+              <% else %>
+                <span class="badge bg-secondary">😐 普通 <%= score %></span>
+              <% end %>
+            </div>
+
             <!-- 日付 -->
             <small class="text-muted">
               <%= review.created_at.strftime("%Y/%m/%d") %>

@@ -18,11 +18,18 @@ class Public::ReviewsController < Public::ApplicationController
   end
 
   def create
-
     @review = current_user.reviews.new(
       review_params.merge(spot: @spot)
     )
+
     if @review.save
+      begin
+        result = Language.get_data(@review.comment)
+        @review.update_column(:score, result[:score])
+      rescue => e
+        Rails.logger.error("Language API Error: #{e.message}")
+      end
+
       redirect_to spot_path(@spot), notice: "レビューを投稿しました"
     else
       @reviews = @spot.reviews.includes(:user)
@@ -37,6 +44,13 @@ class Public::ReviewsController < Public::ApplicationController
 
   def update
     if @review.update(review_params)
+      begin
+        result = Language.get_data(@review.comment)
+        @review.update_column(:score, result[:score])
+      rescue => e
+        Rails.logger.error("Language API Error: #{e.message}")
+      end
+
       redirect_to spot_path(@spot), notice: "レビューを更新しました"
     else
       render :edit, status: :unprocessable_entity

@@ -82,12 +82,16 @@ class Public::SpotsController < Public::ApplicationController
           comment: params[:review][:comment]
         )
 
-        unless review.save
-          Rails.logger.debug review.errors.full_messages
+        if review.save
+          begin
+            result = Language.get_data(review.comment)
+            review.update_column(:score, result[:score])
+          rescue => e
+            Rails.logger.error("Language API Error: #{e.message}")
+          end
         end
       end
 
-      # ← ここが今回追加する正しい位置
       @spot.geocode
       @spot.save
 
