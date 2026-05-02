@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_02_145216) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -47,8 +47,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "spot_id", null: false
+    t.integer "user_id", null: false
+    t.bigint "spot_id"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,8 +57,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "spot_id", null: false
+    t.integer "user_id", null: false
+    t.integer "spot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["spot_id"], name: "index_favorites_on_spot_id"
@@ -66,8 +66,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "spot_id", null: false
+    t.integer "user_id", null: false
+    t.integer "spot_id", null: false
     t.integer "rating"
     t.integer "wifi_rating"
     t.integer "power_rating"
@@ -76,12 +76,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "score", precision: 3, scale: 2
     t.index ["spot_id"], name: "index_reviews_on_spot_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "ip_address"
     t.string "user_agent"
     t.datetime "created_at", null: false
@@ -90,20 +91,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_26_094103) do
   end
 
   create_table "spots", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name", null: false
-    t.integer "category", null: false
+    t.integer "user_id", null: false
+    t.string "name"
+    t.integer "category"
     t.string "address"
     t.float "latitude"
     t.float "longitude"
-    t.boolean "wifi", default: false, null: false
-    t.boolean "power_supply", default: false, null: false
+    t.boolean "wifi"
+    t.boolean "power_supply"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "postal_code"
-    t.index ["latitude"], name: "index_spots_on_latitude"
-    t.index ["longitude"], name: "index_spots_on_longitude"
     t.index ["user_id"], name: "index_spots_on_user_id"
   end
 
