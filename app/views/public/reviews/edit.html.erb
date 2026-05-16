@@ -1,6 +1,16 @@
 <div class="container mt-5">
   <h2 class="mb-4 text-center">レビュー編集</h2>
 
+  <% if @review.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% @review.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <%= form_with model: [@spot, @review], data: { turbo: false } do |f| %>
 
     <%= hidden_field_tag "review[rating]", @review.rating, id: "rating-input" %>

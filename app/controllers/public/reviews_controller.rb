@@ -53,6 +53,7 @@ class Public::ReviewsController < Public::ApplicationController
 
       redirect_to spot_path(@spot), notice: "レビューを更新しました"
     else
+      flash.now[:alert] = @review.errors.full_messages.join(", ")
       render :edit, status: :unprocessable_entity
     end
   end

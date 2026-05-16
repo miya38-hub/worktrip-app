@@ -219,11 +219,11 @@
 
             <div class="mt-2">
               <% if score > 0.3 %>
-                <span class="badge bg-success">😊 ポジティブ <%= score %></span>
+                <span class="badge bg-success"> 作業しやすい環境😊 <%= score %></span>
               <% elsif score < -0.3 %>
-                <span class="badge bg-danger">😡 ネガティブ <%= score %></span>
+                <span class="badge bg-danger">作業しにくい環境😢 <%= score %></span>
               <% else %>
-                <span class="badge bg-secondary">😐 普通 <%= score %></span>
+                <span class="badge bg-secondary">環境は普通 🤔 <%= score %></span>
               <% end %>
             </div>
 

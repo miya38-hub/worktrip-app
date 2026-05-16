@@ -68,36 +68,44 @@ class Public::SpotsController < Public::ApplicationController
   def create
     @spot = current_user.spots.build(spot_params)
 
-    if @spot.save
+    # レビューを先に作る
+    if params[:review].present? && params[:review][:rating].present?
+      @review = current_user.reviews.new(
+        spot: @spot,
+        rating: params[:review][:rating],
+        wifi_rating: params[:review][:wifi_rating],
+        power_rating: params[:review][:power_rating],
+        quietness_rating: params[:review][:quietness_rating],
+        workability_rating: params[:review][:workability_rating],
+        comment: params[:review][:comment]
+      )
+    end
 
-      # レビュー保存
-      if params[:review].present? && params[:review][:rating].present?
-        review = current_user.reviews.new(
-          spot: @spot,
-          rating: params[:review][:rating],
-          wifi_rating: params[:review][:wifi_rating],
-          power_rating: params[:review][:power_rating],
-          quietness_rating: params[:review][:quietness_rating],
-          workability_rating: params[:review][:workability_rating],
-          comment: params[:review][:comment]
-        )
+    if @spot.valid? && (@review.nil? || @review.valid?)
 
-        if review.save
-          begin
-            result = Language.get_data(review.comment)
-            review.update_column(:score, result[:score])
-          rescue => e
-            Rails.logger.error("Language API Error: #{e.message}")
-          end
+      @spot.save!
+
+      if @review.present?
+        @review.spot = @spot
+        @review.save!
+
+        begin
+          result = Language.get_data(@review.comment)
+          @review.update_column(:score, result[:score])
+        rescue => e
+          Rails.logger.error("Language API Error: #{e.message}")
         end
       end
-
-      @spot.geocode
-      @spot.save
 
       redirect_to @spot, notice: "投稿しました"
 
     else
+      if @review&.errors&.any?
+        @review.errors.full_messages.each do |msg|
+          @spot.errors.add(:base, msg)
+        end
+      end
+
       render :new, status: :unprocessable_entity
     end
   end
