@@ -160,6 +160,11 @@
                 レビュー <%= spot.reviews.count %>件
               </small>
 
+                <!-- 🔥 追加（投稿日時） -->
+              <small class="text-muted">
+                <%= spot.created_at.strftime("%Y/%m/%d") %>
+              </small>
+
               <div class="d-flex align-items-center gap-2">
 
                 <!-- 詳細 -->
