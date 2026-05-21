@@ -37,7 +37,14 @@
 
 ## 設計書
 
-後ほど作成予定
+以下に設計書をまとめています。
+
+- ER図<br>
+https://drive.google.com/file/d/1r-7TRObPJOCZm4kbd4twslSUVerYlAW3/view?usp=sharing
+- テーブル定義書<br>
+https://docs.google.com/spreadsheets/d/1OQ1bF1BXpE0Rm4kZUE2dw9mrP_qEKY5qlO-Gk_pesi4/edit?usp=sharing
+- UI Flow図<br>
+https://drive.google.com/file/d/18KiB4cq3T3Dfjak9YPkytpL83R18bSDa/view?usp=sharing
 
 ---
 
