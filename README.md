@@ -52,9 +52,9 @@
 
 ## 使用素材
 
-- フリー画像素材として以下を使用予定<br>
+- フリー画像素材として以下を使用<br>
   Unsplash(https://unsplash.com/ja)
-- アイコン素材として以下を使用予定<br>
+- アイコン素材として以下を使用<br>
   FontAwesome(https://fontawesome.com/)
 
 ---
