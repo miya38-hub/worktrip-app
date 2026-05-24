@@ -4,7 +4,7 @@ class Public::UsersController < Public::ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
-    @users = User.all
+     @users = User.where(is_active: true)
 
     if params[:word].present?
       @users = @users.where("name LIKE ?", "%#{params[:word]}%")
