@@ -49,7 +49,9 @@ function initRaty() {
       starType: 'i',
       starOn: 'fa fa-star text-warning',
       starOff: 'fa fa-star text-secondary',
+
       score: 0,
+      
       click: function(score) {
         $(inputId).val(score);
         console.log("⭐ set:", inputId, score);

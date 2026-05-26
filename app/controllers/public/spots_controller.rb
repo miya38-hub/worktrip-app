@@ -4,50 +4,16 @@ class Public::SpotsController < Public::ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @spots = Spot.left_joins(:favorites, :comments)
-      .select("
-        spots.*,
-        COUNT(DISTINCT favorites.id) AS favorites_count,
-        COUNT(DISTINCT comments.id) AS comments_count
-      ")
-      .group("spots.id")
-
-    # 🔍 キーワード検索
-    if params[:word].present?
-      @spots = @spots.where("spots.name LIKE ?", "%#{params[:word]}%")
-    end
-
-    # 🔍 カテゴリ
-    if params[:category].present?
-      @spots = @spots.where(category: params[:category])
-    end
-
-    # 🔍 地域
-    if params[:region].present?
-      @spots = @spots.where("spots.address LIKE ?", "%#{params[:region]}%")
-    end
-
-    # 🔍 WiFi
-    if params[:wifi].present?
-      @spots = @spots.where(wifi: params[:wifi] == "1")
-    end
-
-    # 🔍 電源
-    if params[:power_supply].present?
-      @spots = @spots.where(power_supply: params[:power_supply] == "1")
-    end
-
-    # 🔥 並び替え（ここ追加）
-    case params[:sort]
-    when "favorites"
-      @spots = @spots.order("favorites_count DESC")
-    when "comments"
-      @spots = @spots.order("comments_count DESC")
-    else
-      @spots = @spots.order(created_at: :desc)
-    end
-
-    @spots = @spots.page(params[:page]).per(6)
+    @spots = Spot
+      .with_counts
+      .search_by_word(params[:word])
+      .filter_by_category(params[:category])
+      .filter_by_region(params[:region])
+      .filter_by_wifi(params[:wifi])
+      .filter_by_power(params[:power_supply])
+      .sort_spots(params[:sort].presence)
+      .page(params[:page])
+      .per(6)
   end
 
   def show
