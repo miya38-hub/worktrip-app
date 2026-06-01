@@ -1,6 +1,5 @@
 class Public::UsersController < Public::ApplicationController
   allow_unauthenticated_access only: [:new, :create]
-  before_action :require_authentication, except: [:new, :create]
   before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
