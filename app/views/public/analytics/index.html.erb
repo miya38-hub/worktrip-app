@@ -6,19 +6,24 @@
   <!-- KPI -->
   <div class="row mb-4 g-3">
     <div class="col-md-6">
-      <div class="card shadow-sm text-center p-3">
-        <h6 class="text-muted mb-1">総いいね数</h6>
-        <h2 class="fw-bold text-danger"><%= @favorite_data.sum %></h2>
+      <div class="card border-0 shadow-sm bg-danger-subtle">
+        <div class="card-body text-center">
+          <i class="fa-solid fa-heart fa-2x text-danger mb-2"></i>
+          <h6 class="text-muted">総いいね数</h6>
+          <h2 class="fw-bold text-danger"><%= @favorite_data.sum %></h2>
+        </div>
       </div>
     </div>
 
     <div class="col-md-6">
-      <div class="card shadow-sm text-center p-3">
-        <h6 class="text-muted mb-1">総投稿数</h6>
-        <h2 class="fw-bold text-primary"><%= @spot_data.sum %></h2>
+      <div class="card border-0 shadow-sm bg-primary-subtle">
+        <div class="card-body text-center">
+          <i class="fa-solid fa-location-dot fa-2x text-primary mb-2"></i>
+          <h6 class="text-muted">総投稿数</h6>
+          <h2 class="fw-bold text-primary"><%= @spot_data.sum %></h2>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="row g-4">
 
