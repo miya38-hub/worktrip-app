@@ -31,7 +31,25 @@
     <div class="col-lg-8">
       <div class="card shadow-sm h-100">
         <div class="card-body">
-          <h5 class="card-title mb-3">いいね・投稿数の推移</h5>
+          <h5 class="card-title mb-3">
+            <i class="fa-solid fa-chart-line me-2"></i>
+            いいね・投稿数の推移
+          </h5>
+
+          <div class="btn-group mb-3">
+            <%= link_to "日次",
+                analytics_path(range: "day"),
+                class: "btn btn-outline-primary #{'active' if @range == 'day'}" %>
+
+            <%= link_to "週次",
+                analytics_path(range: "week"),
+                class: "btn btn-outline-primary #{'active' if @range == 'week'}" %>
+
+            <%= link_to "月次",
+                analytics_path(range: "month"),
+                class: "btn btn-outline-primary #{'active' if @range == 'month'}" %>
+          </div>
+
           <div style="height: 350px;">
             <canvas id="analyticsChart"></canvas>
           </div>
