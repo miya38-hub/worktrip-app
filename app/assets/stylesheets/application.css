@@ -192,5 +192,10 @@ input[type="submit"] {
 }
 
 body {
-  font-family: 'Zen Kaku Gothic New', sans-serif !important;
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+}
+
+.homes-top,
+.homes-about {
+  font-family: 'Poppins', sans-serif;
 }
