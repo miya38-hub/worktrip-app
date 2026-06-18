@@ -1,6 +1,18 @@
 <div class="container mt-4">
 
-  <h2 class="fw-bold mb-4">ユーザー一覧</h2>
+  <div class="mb-4">
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <h2 class="fw-bold mb-0">ユーザー一覧</h2>
+
+      <span class="badge bg-primary rounded-pill px-3 py-2">
+        <%= @users.total_count %>人
+      </span>
+    </div>
+
+    <p class="text-muted mb-0">
+      WorkTripを利用しているユーザーを探せます
+    </p>
+  </div>
 
   <!-- 🔍 検索 -->
   <%= form_with url: users_path, method: :get, local: true, class: "mb-4" do |f| %>
