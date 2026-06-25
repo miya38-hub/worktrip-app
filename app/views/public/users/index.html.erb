@@ -58,6 +58,18 @@
                 <%= truncate(user.introduction.presence || "自己紹介はありません", length: 50) %>
               </p>
 
+              <div class="d-flex justify-content-center gap-3 mt-3 small text-muted">
+                <span>
+                  <i class="fa-solid fa-location-dot text-primary"></i>
+                  <%= user.spots.count %>件
+                </span>
+
+                <span>
+                  <i class="fa-solid fa-heart text-danger"></i>
+                  <%= user.favorites.count %>件
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
