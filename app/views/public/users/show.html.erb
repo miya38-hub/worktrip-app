@@ -61,13 +61,24 @@
   <!-- タブ -->
   <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="tab" href="#spots">スポット</a>
+      <a class="nav-link active" data-bs-toggle="tab" href="#spots">
+        スポット
+        <span class="badge bg-primary ms-1"><%= @spots.total_count %></span>
+      </a>
     </li>
+
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#favorites">お気に入り</a>
+      <a class="nav-link" data-bs-toggle="tab" href="#favorites">
+        お気に入り
+        <span class="badge bg-danger ms-1"><%= @favorites.count %></span>
+      </a>
     </li>
+
     <li class="nav-item">
-      <a class="nav-link" data-bs-toggle="tab" href="#reviews">レビュー</a>
+      <a class="nav-link" data-bs-toggle="tab" href="#reviews">
+        レビュー
+        <span class="badge bg-success ms-1"><%= @reviews.count %></span>
+      </a>
     </li>
   </ul>
 
