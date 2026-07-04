@@ -42,7 +42,6 @@ function initRaty() {
     const el = $(selector);
     if (!el.length) return;
 
-    // 🔥 ここ重要：毎回初期化リセット
     el.empty();
 
     el.raty({
