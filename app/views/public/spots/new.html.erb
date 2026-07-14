@@ -22,13 +22,19 @@
 
             <!-- 名前 -->
             <div class="mb-3">
-              <%= f.label :name, "スポット名", class: "form-label" %>
-              <%= f.text_field :name, class: "form-control", placeholder: "例：スターバックス渋谷店" %>
+              <%= f.label :name, class: "form-label" do %>
+                スポット名 <span class="badge bg-danger">必須</span>
+              <% end %>
+
+              <%= f.text_field :name, class: "form-control", placeholder: "例：スターバックス渋谷店", autocomplete: "organization" %>
             </div>
 
             <!-- カテゴリ -->
             <div class="mb-3">
-              <%= f.label :category, "カテゴリ", class: "form-label" %>
+              <%= f.label :category,  class: "form-label" do %>
+                カテゴリ <span class="badge bg-danger">必須</span>
+              <% end %>
+              
               <%= f.select :category,
                 Spot.categories.keys.map { |k| [I18n.t("enums.spot.category.#{k}"), k] },
                 { prompt: "カテゴリを選択してください" },
