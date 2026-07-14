@@ -23,7 +23,7 @@
             <!-- 名前 -->
             <div class="mb-3">
               <%= f.label :name, class: "form-label" do %>
-                スポット名 <span class="badge bg-danger">必須</span>
+                スポット名 <span class="badge bg-danger">入力必須</span>
               <% end %>
 
               <%= f.text_field :name, class: "form-control", placeholder: "例：スターバックス渋谷店", autocomplete: "organization" %>
@@ -32,9 +32,9 @@
             <!-- カテゴリ -->
             <div class="mb-3">
               <%= f.label :category,  class: "form-label" do %>
-                カテゴリ <span class="badge bg-danger">必須</span>
+                カテゴリ <span class="badge bg-danger">入力必須</span>
               <% end %>
-              
+
               <%= f.select :category,
                 Spot.categories.keys.map { |k| [I18n.t("enums.spot.category.#{k}"), k] },
                 { prompt: "カテゴリを選択してください" },
@@ -43,7 +43,9 @@
 
             <!-- 郵便番号 -->
             <div class="mb-3">
-              <%= f.label :postal_code, "郵便番号", class: "form-label" %>
+              <%= f.label :postal_code, class: "form-label" do %>
+                郵便番号 <span class="badge bg-primary">入力任意</span>
+              <% end %>
               <%= f.text_field :postal_code,
                   class: "form-control",
                   id: "postal_code",
@@ -52,7 +54,9 @@
 
             <!-- 住所 -->
             <div class="mb-3">
-              <%= f.label :address, "住所", class: "form-label" %>
+              <%= f.label :address, class: "form-label" do %>
+                住所 <span class="badge bg-primary">入力任意</span>
+              <% end %>
               <%= f.text_field :address,
                   class: "form-control",
                   id: "address",
@@ -61,6 +65,9 @@
 
             <!-- WiFi & 電源 -->
             <div class="mb-3">
+              <%= f.label :equipment, class: "form-label" do %>
+                設備 <span class="badge bg-danger">入力必須</span>
+              <% end %>
               <div class="form-check">
                 <%= f.check_box :wifi, class: "form-check-input" %>
                 <%= f.label :wifi, "WiFiあり", class: "form-check-label" %>
@@ -74,7 +81,9 @@
 
             <!-- 詳細 -->
             <div class="mb-3">
-              <%= f.label :description, "詳細", class: "form-label" %>
+              <%= f.label :description, class: "form-label" do %>
+                詳細 <span class="badge bg-primary">入力任意</span>
+              <% end %>
               <%= f.text_area :description,
                   class: "form-control",
                   rows: 4,
@@ -83,7 +92,9 @@
 
             <!-- レビュー -->
             <hr class="my-4">
-            <h4 class="mb-3">初回レビュー（任意）</h4>
+            <h4 class="mb-3">初回レビュー
+             <span class="badge bg-primary">入力任意</span>
+            </h4>
 
             <%= hidden_field_tag "review[rating]", nil, id: "rating-input" %>
             <%= hidden_field_tag "review[wifi_rating]", nil, id: "wifi-input" %>
