@@ -26,23 +26,22 @@ class Admin::ReviewsController < Admin::ApplicationController
   end
 
   private
+    def set_spot
+      @spot = Spot.find(params[:spot_id])
+    end
 
-  def set_spot
-    @spot = Spot.find(params[:spot_id])
-  end
+    def set_review
+      @review = @spot.reviews.find(params[:id])
+    end
 
-  def set_review
-    @review = @spot.reviews.find(params[:id])
-  end
-
-  def review_params
-    params.require(:review).permit(
-      :rating,
-      :wifi_rating,
-      :power_rating,
-      :quietness_rating,
-      :workability_rating,
-      :comment
-    )
-  end
+    def review_params
+      params.require(:review).permit(
+        :rating,
+        :wifi_rating,
+        :power_rating,
+        :quietness_rating,
+        :workability_rating,
+        :comment
+      )
+    end
 end

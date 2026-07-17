@@ -3,7 +3,7 @@ class Admin::UsersController < Admin::ApplicationController
   before_action :set_user, only: [:show, :withdraw]
 
   def index
-   @users = User.order(created_at: :desc).page(params[:page]).per(10)
+    @users = User.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def show
@@ -15,8 +15,7 @@ class Admin::UsersController < Admin::ApplicationController
   end
 
   private
-
-  def set_user
-    @user = User.find(params[:id])
-  end
+    def set_user
+      @user = User.find(params[:id])
+    end
 end

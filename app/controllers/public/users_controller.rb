@@ -3,7 +3,7 @@ class Public::UsersController < Public::ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update]
 
   def index
-     @users = User.where(is_active: true)
+    @users = User.where(is_active: true)
 
     if params[:word].present?
       @users = @users.where("name LIKE ?", "%#{params[:word]}%")
@@ -59,14 +59,13 @@ class Public::UsersController < Public::ApplicationController
   end
 
   private
-
-  def ensure_correct_user
-    unless params[:id].to_i == current_user.id
-      redirect_to user_path(current_user), alert: "権限がありません"
+    def ensure_correct_user
+      unless params[:id].to_i == current_user.id
+        redirect_to user_path(current_user), alert: "権限がありません"
+      end
     end
-  end
-  
-  def user_params
-    params.require(:user).permit(:name, :email_address, :password, :password_confirmation, :introduction, :profile_image)
-  end
+
+    def user_params
+      params.require(:user).permit(:name, :email_address, :password, :password_confirmation, :introduction, :profile_image)
+    end
 end

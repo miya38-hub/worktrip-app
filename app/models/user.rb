@@ -27,11 +27,9 @@ class User < ApplicationRecord
   def favorited?(spot)
     favorites.exists?(spot_id: spot.id)
   end
-  
+
   private
-
-  def set_active_default
-    self.is_active = true if is_active.nil?
-  end
-
+    def set_active_default
+      self.is_active = true if is_active.nil?
+    end
 end

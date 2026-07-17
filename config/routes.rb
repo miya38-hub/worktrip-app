@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   end
   get "maps/show"
   resources :passwords, param: :token
-  
+
   scope module: :public do
     root "homes#top"
     get "dashboard", to: "homes#dashboard"
@@ -16,10 +16,10 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
       member do
         get :unsubscribe
-        patch :withdraw 
+        patch :withdraw
       end
     end
-    
+
     resource :session, only: [:new, :create, :destroy] do
       post :guest_login
     end

@@ -42,10 +42,10 @@ gem "image_processing", "~> 1.2"
 
 gem "kaminari"
 
-gem 'dotenv-rails'
-gem 'geocoder'
+gem "dotenv-rails"
+gem "geocoder"
 
-gem 'mysql2'
+gem "mysql2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -61,6 +61,14 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  gem "rubocop", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-minitest", require: false
+  gem "rubocop-packaging", require: false
+  gem "rubocop-rspec"
+  gem "rubocop-md"
 end
 
 group :test do
@@ -69,6 +77,6 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'dotenv-rails'
+gem "dotenv-rails"
 group :production do
 end

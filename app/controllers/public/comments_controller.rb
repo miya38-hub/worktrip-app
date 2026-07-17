@@ -39,22 +39,21 @@ class Public::CommentsController < Public::ApplicationController
   end
 
   private
-
-  def set_spot
-    @spot = Spot.find(params[:spot_id])
-  end
-
-  def set_comment
-    @comment = @spot.comments.find(params[:id])
-  end
-
-  def ensure_correct_user
-    unless @comment.user == current_user
-      redirect_to spot_path(@spot), alert: "権限がありません"
+    def set_spot
+      @spot = Spot.find(params[:spot_id])
     end
-  end
 
-  def comment_params
-    params.require(:comment).permit(:comment)
-  end
+    def set_comment
+      @comment = @spot.comments.find(params[:id])
+    end
+
+    def ensure_correct_user
+      unless @comment.user == current_user
+        redirect_to spot_path(@spot), alert: "権限がありません"
+      end
+    end
+
+    def comment_params
+      params.require(:comment).permit(:comment)
+    end
 end

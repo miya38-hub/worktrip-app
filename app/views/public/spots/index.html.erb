@@ -2,12 +2,10 @@
   <div class="bg-light border-bottom py-3">
     <div class="container">
 
-      <!-- 🔥 これが必要 -->
       <%= form_with url: spots_path, method: :get, local: true do |f| %>
 
         <div class="card shadow-sm border-0 p-3">
 
-          <!-- 🔥 ① キーワード -->
           <div class="row g-3 mb-3">
 
             <div class="col-md-6">
@@ -28,7 +26,6 @@
 
           </div>
 
-          <!-- 🔥 ② フィルター -->
           <div class="row g-3 align-items-end mb-3">
 
             <div class="col-md-3">
@@ -71,7 +68,6 @@
 
           </div>
 
-          <!-- 🔥 ③ ボタン -->
           <div class="d-flex justify-content-center gap-2">
             <%= f.submit "🔍 検索",
               class: "btn btn-primary px-4 fw-bold shadow-sm" %>
@@ -122,6 +118,16 @@
               <!-- タイトル -->
               <h5 class="card-title fw-bold mb-2">
                 <%= link_to spot.name, spot_path(spot), class: "text-decoration-none text-dark" %>
+
+                <span>
+                  <% avg = spot.reviews.average(:rating)&.round(1) %>
+
+                  <% if avg %>
+                    ⭐ <%= avg %>
+                  <% else %>
+                    (評価なし)
+                  <% end %>
+                </span>
               </h5>
 
               <!-- 住所 -->
@@ -169,7 +175,7 @@
                 レビュー <%= spot.reviews.count %>件
               </small>
 
-                <!-- 🔥 追加（投稿日時） -->
+                <!-- （投稿日時） -->
               <small class="text-muted">
                 <%= spot.created_at.strftime("%Y/%m/%d") %>
               </small>

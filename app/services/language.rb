@@ -39,6 +39,5 @@ class Language
     magnitude = sentiment&.dig("magnitude") || 0.0
 
     { score: score, magnitude: magnitude }
-    
   end
 end

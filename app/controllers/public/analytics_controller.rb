@@ -12,7 +12,7 @@ class Public::AnalyticsController < ApplicationController
                  [1.month.ago.beginning_of_day, Time.current.end_of_day]
                else
                  [1.week.ago.beginning_of_day, Time.current.end_of_day]
-               end
+    end
 
     # ===== 元データ取得（ユーザーに限定 + キーを文字列化🔥）=====
     favorite_hash = current_user.favorites

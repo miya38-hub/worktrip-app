@@ -75,7 +75,7 @@ class Public::SpotsController < Public::ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def edit
     @spot = Spot.find(params[:id])
   end
@@ -94,18 +94,17 @@ class Public::SpotsController < Public::ApplicationController
   end
 
   private
-
-  def set_spot
-    @spot = Spot.find(params[:id])
-  end
-
-  def correct_user
-    unless @spot.user == current_user
-      redirect_to spots_path, alert: "権限がありません"
+    def set_spot
+      @spot = Spot.find(params[:id])
     end
-  end
 
-  def spot_params
-    params.require(:spot).permit(:name, :category, :address, :postal_code, :wifi, :power_supply, :description)
-  end
+    def correct_user
+      unless @spot.user == current_user
+        redirect_to spots_path, alert: "権限がありません"
+      end
+    end
+
+    def spot_params
+      params.require(:spot).permit(:name, :category, :address, :postal_code, :wifi, :power_supply, :description)
+    end
 end

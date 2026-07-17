@@ -39,12 +39,11 @@ class Admin::SpotsController < Admin::ApplicationController
   end
 
   private
+    def set_spot
+      @spot = Spot.find(params[:id])
+    end
 
-  def set_spot
-    @spot = Spot.find(params[:id])
-  end
-
-  def spot_params
-    params.require(:spot).permit(:name, :category, :address, :wifi, :power_supply, :description)
-  end
+    def spot_params
+      params.require(:spot).permit(:name, :category, :address, :wifi, :power_supply, :description)
+    end
 end
