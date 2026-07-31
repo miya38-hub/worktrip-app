@@ -159,9 +159,9 @@
                 </span>
 
                 <!-- ❤️ いいね -->
-                <% if spot.favorites.count > 0 %>
+                <% if spot.favorites.count.to_i > 0 %>
                   <span class="badge bg-danger-subtle text-danger border px-3 py-2">
-                    ❤️ <%= spot.favorites_count || 0 %>
+                    ❤️ <%= spot.favorites_count %>
                   </span>
                 <% else %>
                   <span class="badge bg-light text-muted border px-3 py-2">
@@ -186,7 +186,7 @@
               <div class="d-flex align-items-center gap-2">
 
                 <!-- 詳細 -->
-                <%= link_to "詳細",
+                <%= link_to "詳細を見る",
                   spot_path(spot),
                   class: "btn btn-outline-primary btn-sm" %>
 
